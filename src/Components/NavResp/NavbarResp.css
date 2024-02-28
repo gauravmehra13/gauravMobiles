@@ -1,0 +1,25 @@
+.links {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  gap: 20px;
+}
+
+/* .navbar {
+  margin-bottom: 50px;
+} */
+
+.searchform {
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .links {
+    flex-direction: column;
+    color: red;
+  }
+
+  .searchform {
+    padding: 20px;
+  }
+}
