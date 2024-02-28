@@ -4,15 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart, addToFavorites, queryData } from "../../app/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { Button, Row, Col, Badge } from "react-bootstrap"; // Import Row and Col from react-bootstrap
-import {
-  faHeart,
-  faStar,
-  faStarHalf,
-} from "@fortawesome/free-regular-svg-icons";
-
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Carousel from "react-bootstrap/Carousel";
-import Form from "react-bootstrap/Form";
 import Star from "../../Components/Star/Star";
 
 const ProductPage = () => {

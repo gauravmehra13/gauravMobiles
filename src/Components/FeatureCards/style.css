@@ -73,6 +73,11 @@ h1:last-of-type {
   }
 }
 
+@media (max-width: 950px) {
+  .header {
+    margin-top: 130px;
+  }
+}
 @media (max-width: 950px) and (min-width: 450px) {
   .box {
     text-align: center;

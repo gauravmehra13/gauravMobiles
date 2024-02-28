@@ -10,16 +10,13 @@ import {
 const About = () => {
   return (
     <>
-      <section className="bg-dark py-5">
+      <section className="bg-dark py-5 container mt-5" style={{borderRadius:"16px"}}>
         <div className="container">
           <div className="row align-items-center py-5">
             <div className="col-md-8 text-white">
               <h1 className="text-white">About Us</h1>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+              At Gaurav Mobiles, we're passionate about bringing the latest and greatest smartphones to our customers. With a commitment to quality and innovation, we strive to provide a seamless shopping experience that exceeds expectations.
               </p>
             </div>
             <div className="col-md-4">
