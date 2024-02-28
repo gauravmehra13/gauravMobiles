@@ -70,7 +70,7 @@ const ProductPage = () => {
   };
 
   const [minPrice, setMinPrice] = useState(10000);
-  const [maxPrice, setMaxPrice] = useState(200000);
+  const [maxPrice, setMaxPrice] = useState(150000);
 
   const handlePriceRangeChange = (e) => {
     const value = parseInt(e.target.value);
@@ -81,7 +81,7 @@ const ProductPage = () => {
   const [filters, setFilters] = useState({
     brand: [],
     rating: [],
-    priceRange: { min: 10000, max: 200000 },
+    priceRange: { min: 10000, max: 150000 },
   });
 
   const applyFilters = () => {
@@ -280,7 +280,7 @@ const ProductPage = () => {
                         type="range"
                         className="custom-range"
                         min="10000"
-                        max="200000"
+                        max="150000"
                         value={maxPrice}
                         onChange={handlePriceRangeChange}
                       />
@@ -292,7 +292,7 @@ const ProductPage = () => {
                           <input
                             type="number"
                             className="form-control"
-                            placeholder="Rs 200000"
+                            placeholder="Min Price"
                             value={minPrice}
                             onChange={(e) =>
                               setMinPrice(parseInt(e.target.value))
@@ -389,7 +389,6 @@ const ProductPage = () => {
               >
                 <span>{filteredItems.length} Items found </span>
                 <Button
-            
                   className="btn btn-light me-2"
                   style={{ marginLeft: "auto" }}
                   onClick={clearFilters}
@@ -401,7 +400,6 @@ const ProductPage = () => {
                   <ul className="pagination">
                     <li className="page-item">
                       <button
-                      
                         className="page-link"
                         aria-label="Previous"
                         onClick={() => paginate(currentPage - 1)}

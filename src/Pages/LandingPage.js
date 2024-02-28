@@ -10,7 +10,7 @@ const LandingPage = () => {
     <div>
       <HeroSec />
       <FeatureCards/>
-      <BestSellers/>
+      {/* <BestSellers/> */}
       <LatestProducts/>
       <FAQs/>
     </div>

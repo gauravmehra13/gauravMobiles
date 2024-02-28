@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import "./LatestProducts.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swiper from "swiper";
 import "swiper/css";
+import { addToCart } from "../../app/cartSlice";
 
 const LatestProducts = () => {
   const data = useSelector((state) => state.allCart.items);
   const latestproducts = data.filter((items) => items.rating > 4);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     /* Initialize Swiper */
@@ -46,54 +48,65 @@ const LatestProducts = () => {
     });
   }, []);
 
+  const handleAddToCartClick = (item) => {
+    dispatch(addToCart(item));
+  };
+
   return (
-    <section className="product-slider container">
-      <h4 className="product-slider-heading">LATEST PRODUCTS</h4>
-      <div className="slider-btns">
-        <div className="swiper-button-prev"></div>
-        <div className="swiper-button-next"></div>
-      </div>
-      <div className="slider-container">
-        <div className="swiper mySwiper">
-          <div className="swiper-wrapper">
-            {latestproducts.map((item, index) => (
-              <div className="swiper-slide" key={index}>
-                <div className="product-box">
-                  <span className="product-box-offer">On Sale</span>
-                  <div className="product-img-container">
-                    <div className="product-img">
-                      <a href="http://demo47.askas8.se/sv/front-brake-assy-37-5-12-14">
-                        <img
-                          alt=""
-                          className="product-img-front"
-                          src={item.img}
-                        />
-                        <img
-                          alt=""
-                          className="product-img-back"
-                          src="images/1-b.jpg"
-                        />
-                      </a>
+    <>
+      <section className="product-slider container">
+        <h4 className="product-slider-heading">LATEST PRODUCTS</h4>
+        <div className="slider-btns">
+          <div className="swiper-button-prev"></div>
+          <div className="swiper-button-next"></div>
+        </div>
+        <div className="slider-container">
+          <div className="swiper mySwiper">
+            <div className="swiper-wrapper">
+              {latestproducts.map((item, index) => (
+                <div className="swiper-slide" key={index}>
+                  <div className="product-box">
+                    <span className="product-box-offer">On Sale</span>
+                    <div className="product-img-container">
+                      <div className="product-img">
+                        <a href="http://demo47.askas8.se/sv/front-brake-assy-37-5-12-14">
+                          <img
+                            alt=""
+                            className="product-img-front"
+                            src={item.img}
+                          />
+                          <img
+                            alt=""
+                            className="product-img-back"
+                            src={item.img2}
+                          />
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <div className="product-box-text">
-                    <div className="product-category">
-                      <span>{item.brand}</span>
-                    </div>
-                    <p className="product-title">{item.title}</p>
-                    <div className="price-buy">
-                      <span className="p-price">Rs {item.price}</span>
-                      <button className="p-buy-btn btn">Buy Now</button>
+                    <div className="product-box-text">
+                      <div className="product-category">
+                        <span>{item.brand}</span>
+                      </div>
+                      <p className="product-title">{item.title}</p>
+                      <div className="price-buy">
+                        <span className="p-price">Rs {item.price}</span>
+                        <button
+                          className="p-buy-btn btn"
+                          onClick={() => handleAddToCartClick(item)}
+                        >
+                          Buy Now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="swiper-pagination"></div>
           </div>
-          <div className="swiper-pagination"></div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
