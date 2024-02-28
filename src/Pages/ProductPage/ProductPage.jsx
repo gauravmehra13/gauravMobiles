@@ -162,7 +162,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-5 mb-5">
         <Carousel className="car mb-5">
           <Carousel.Item interval={5000}>
             <img
@@ -256,7 +256,7 @@ const ProductPage = () => {
                             {brand}
                           </label>
                           <Badge
-                            className="badge bg-success float-end"
+                            className="badge bg-secondary float-end"
                             style={{ width: "30px" }}
                           >
                             {countProductsByBrand(brand)}
@@ -388,17 +388,20 @@ const ProductPage = () => {
                 }}
               >
                 <span>{filteredItems.length} Items found </span>
-                <button
-                  className="btn btn-dark me-2"
+                <Button
+            
+                  className="btn btn-light me-2"
                   style={{ marginLeft: "auto" }}
                   onClick={clearFilters}
                 >
+                  <i class="bi bi-filter me-1"></i>
                   Clear Filters
-                </button>
+                </Button>
                 <nav className="pagination-outer" aria-label="Page navigation">
                   <ul className="pagination">
                     <li className="page-item">
                       <button
+                      
                         className="page-link"
                         aria-label="Previous"
                         onClick={() => paginate(currentPage - 1)}
