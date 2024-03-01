@@ -1,37 +1,33 @@
 import React from "react";
 import "./Confirm.css";
-const Confirm = () => {
+
+const Confirm = ({ name, address, orderNumber }) => {
   return (
     <div>
-      <div class="container mt-2 mb-2 d-flex justify-content-center">
-        <div class="popup">
-          <div class="first d-flex justify-content-between align-items-center mb-3">
-            <div class="info">
-              <span class="d-block name">Thank you, Alex</span>
-              <span class="order">Order - 4554645</span>
+      <div className="container mt-2 mb-2 d-flex justify-content-center">
+        <div className="popup">
+          <div className="first d-flex justify-content-between align-items-center mb-3">
+            <div className="info">
+              <span className="d-block name">Thank you, {name}</span>
+              <span className="order">Order - {orderNumber}</span>
             </div>
 
-            <img src="https://i.imgur.com/NiAVkEw.png" width="40" />
+            <img src="https://i.imgur.com/NiAVkEw.png" width="40" alt="logo" />
           </div>
-          <div class="detail">
-            <span class="d-block summery">
+          <div className="detail">
+            <span className="d-block summery">
               Your order has been dispatched. we are delivering you order.
             </span>
           </div>
           <hr />
-          <div class="text">
-            <span class="d-block new mb-1">Alex Dorlew</span>
+          <div className="text">
+            <span className="d-block new mb-1">{name}</span>
           </div>
-          <span class="d-block address mb-3">
-            672 Conaway Street Bryantiville Massachusetts 02327
-          </span>
-          <div class="  money d-flex flex-row mt-2 align-items-center">
-            <img src="https://i.imgur.com/ppwgjMU.png" width="20" />
+          <span className="d-block address mb-3">{address}</span>
+          <div className="  money d-flex flex-row mt-2 align-items-center">
+            <img src="https://i.imgur.com/ppwgjMU.png" width="20" alt="cash" />
 
-            <span class="ml-2">Cash on Delivery</span>
-          </div>
-          <div class="last d-flex align-items-center mt-3">
-            <span class="address-line">CHANGE MY DELIVERY ADDRESS</span>
+            <span className="ml-2">Cash on Delivery</span>
           </div>
         </div>
       </div>

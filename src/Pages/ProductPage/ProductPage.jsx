@@ -10,6 +10,14 @@ import Carousel from "react-bootstrap/Carousel";
 import Star from "../../Components/Star/Star";
 
 const ProductPage = () => {
+  const [clickedIndex, setClickedIndex] = useState(null);
+
+  // const cartBtn = document.querySelector(".cart-btn");
+
+  // cartBtn.addEventListener("click", () => {
+  //   cartBtn.classList.add("clicked");
+  // });
+
   const data = useSelector((state) => state.allCart.items);
   const query = useSelector((state) => state.allCart.query);
 
@@ -45,9 +53,10 @@ const ProductPage = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleAddToCartClick = (e, val) => {
+  const handleAddToCartClick = (e, val, index) => {
     e.stopPropagation();
     dispatch(addToCart(val));
+    setClickedIndex(val.id);
   };
 
   const handleAddToFavClick = (e, val) => {
@@ -249,12 +258,12 @@ const ProductPage = () => {
                           >
                             {brand}
                           </label>
-                          <Badge
-                            className="badge bg-secondary float-end"
+                          <span
+                            className="text-center float-end bg-light"
                             style={{ width: "30px" }}
                           >
                             {countProductsByBrand(brand)}
-                          </Badge>
+                          </span>
                         </div>
                       )
                     )}
@@ -381,16 +390,16 @@ const ProductPage = () => {
                   alignItems: "center",
                 }}
               >
-                <span>{filteredItems.length} Items found </span>
+                <span>{filteredItems.length} Items </span>
                 <Button
                   className="btn btn-light me-2"
                   style={{ marginLeft: "auto" }}
                   onClick={clearFilters}
                 >
-                  <i class="bi bi-filter me-1"></i>
+                  <i className="bi bi-filter me-1"></i>
                   Clear Filters
                 </Button>
-                <nav className="pagination-outer" aria-label="Page navigation">
+                {/* <nav className="pagination-outer" aria-label="Page navigation">
                   <ul className="pagination">
                     <li className="page-item">
                       <button
@@ -435,6 +444,55 @@ const ProductPage = () => {
                       </button>
                     </li>
                   </ul>
+                </nav> */}
+
+                <nav className="Pager1" aria-label="pagination example">
+                  <ul className="pagination pagination-circle justify-content-center">
+                    <li className="page-item">
+                      <button
+                        className="page-link"
+                        aria-label="Previous"
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                        <span className="sr-only">Previous</span>
+                      </button>
+                    </li>
+
+                    {Array(Math.ceil(data.length / productsPerPage))
+                      .fill()
+                      .map((_, index) => (
+                        <li
+                          key={index}
+                          className={`page-item ${
+                            currentPage === index + 1 ? "active" : ""
+                          }`}
+                        >
+                          <button
+                            className="page-link next"
+                            onClick={() => paginate(index + 1)}
+                          >
+                            {index + 1}
+                          </button>
+                        </li>
+                      ))}
+
+                    <li className="page-item">
+                      <button
+                        className="page-link"
+                        aria-label="Next"
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={
+                          currentPage ===
+                          Math.ceil(data.length / productsPerPage)
+                        }
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                        <span className="sr-only">Next</span>
+                      </button>
+                    </li>
+                  </ul>
                 </nav>
               </div>
             </header>
@@ -460,14 +518,27 @@ const ProductPage = () => {
                       <Star stars={val.rating}></Star>
                     </div>
                     <div className="card-text">Rs {val.price}</div>
-                    <li
+                    {/* <li
                       onClick={(e) => handleAddToCartClick(e, val)}
                       className="card-button"
                       style={{ cursor: "pointer" }}
                     >
                       <span className="bi bi-cart mx-2"></span>
                       Add To Cart
-                    </li>
+                    </li> */}
+
+                    <button
+                      className={`cart-btn ${
+                        val.id === clickedIndex ? "clicked" : ""
+                      }`}
+                      onClick={(e) => handleAddToCartClick(e, val)}
+                    >
+                      <span className="icon-container">
+                        <i className="bi bi-cart icon-c"></i>
+                      </span>
+                      <span className="primary-text">add item</span>
+                      <span className="secondary-text">item added</span>
+                    </button>
                   </div>
                 </Col>
               ))}

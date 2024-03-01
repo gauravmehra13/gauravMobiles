@@ -55,11 +55,13 @@ const LatestProducts = () => {
     });
   }, []);
 
-  const handleAddToCartClick = (item) => {
+  const handleAddToCartClick = (e, item) => {
+    e.stopPropagation();
+
     dispatch(addToCart(item));
   };
 
-  const handleCardClick = (item) => {
+  const handleCardClick = (e, item) => {
     navigate("/next", { state: { data: item } });
   };
 
@@ -129,7 +131,7 @@ const LatestProducts = () => {
                 <div className="swiper-slide" key={index}>
                   <div
                     className="product-box"
-                    onClick={() => handleCardClick(item)}
+                    onClick={(e) => handleCardClick(e, item)}
                   >
                     <span className="product-box-offer">On Sale</span>
                     <div className="product-img-container">
@@ -157,7 +159,7 @@ const LatestProducts = () => {
                         <span className="p-price">Rs {item.price}</span>
                         <button
                           className="p-buy-btn btn"
-                          onClick={() => handleAddToCartClick(item)}
+                          onClick={(e) => handleAddToCartClick(e, item)}
                         >
                           Buy Now
                         </button>

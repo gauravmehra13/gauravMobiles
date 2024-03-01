@@ -105,6 +105,10 @@ const cartSlice = createSlice({
     queryData: (state, action) => {
       state.query = action.payload;
     },
+    clearCart: (state) => {
+      state.cart = [];
+      saveCartToLocalStorage(state.cart);
+    },
   },
 });
 
@@ -117,6 +121,7 @@ export const {
   increaseItemQuantity,
   decreaseItemQuantity,
   queryData,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

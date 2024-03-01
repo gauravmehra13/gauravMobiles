@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getCartTotal } from "../../app/cartSlice";
+import { getCartTotal, clearCart } from "../../app/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Confirm from "../../Components/ConfirmationPopup/Confirm";
 import { Modal, Button } from "react-bootstrap"; // Import Bootstrap modal components
@@ -10,8 +10,10 @@ const CheckoutAlt = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(
     (state) => state.allCart
   );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
     // Calculate the total quantity and price when cart changes
     dispatch(getCartTotal());
@@ -19,111 +21,254 @@ const CheckoutAlt = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("");
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [paymentMethodError, setPaymentMethodError] = useState("");
+  const [showSpinner, setShowSpinner] = useState(false); // State to control spinner visibility
 
-  const handlePaymentMethodChange = (method) => {
-    setPaymentMethod(method);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    pincode: "",
+    email: "",
+    phone: "",
+  });
+
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    pincode: "",
+    email: "",
+    phone: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    // Clear the error message for the field being changed
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
 
   const handleMakePurchase = () => {
-    if (paymentMethod === "cashOnDelivery") {
-      setShowModal(true); // Display modal if payment method is "Cash On Delivery"
-    } else {
-      navigate("/payment"); // Navigate to "/payment" if payment method is "Pay with card"
+    const formErrors = {};
+    Object.keys(formData).forEach((key) => {
+      if (formData[key].trim().length < 5) {
+        formErrors[key] = `${key} must be at least 5 characters`;
+      }
+    });
+
+    if (!/^\d{10}$/.test(formData.phone.trim())) {
+      formErrors.phone = "Phone number must be 10 digits";
+    }
+
+    if (
+      !/^[\w-]+(\.[\w-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/.test(
+        formData.email.trim()
+      )
+    ) {
+      formErrors.email = "Enter a valid email address";
+    }
+
+    setErrors(formErrors);
+    if (Object.keys(formErrors).length === 0) {
+      if (paymentMethod === "") {
+        setPaymentMethodError("Please select a payment method");
+      } else if (paymentMethod === "cashOnDelivery") {
+        setShowSpinner(true); // Show the spinner
+        setTimeout(() => {
+          setShowSpinner(false); // Hide the spinner after 5 seconds
+          setShowModal(true); // Show the modal
+        }, 5000);
+      } else {
+        navigate("/payment");
+      }
     }
   };
 
+  const handlePaymentMethodChange = (method) => {
+    setPaymentMethod(method);
+    setPaymentMethodError(""); // Clear any previous errors
+  };
+
+  // Generate random order number
+  const generateOrderNumber = () => {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = "0123456789";
+    let result = "";
+    for (let i = 0; i < 3; i++) {
+      result += letters.charAt(Math.floor(Math.random() * letters.length));
+      result += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    }
+    return result;
+  };
+
+  const orderNumber = generateOrderNumber(); // Generate order number
+
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 mb-5">
+      {showSpinner && (
+        <div className="overlay">
+          <div class="loading"></div>
+          <h4 className="text-white"> Processing...</h4>
+        </div>
+      )}
+
       <div className="row ">
         <div className="col-md-8">
           <div className="card">
             <div className="card-header py-3 bg-dark text-white">
-              <h5 className="mb-0">Biling details</h5>
+              <h5 className="mb-0">Biling Details</h5>
             </div>
             <div className="card-body">
               <form>
                 <div className="row mb-4">
                   <div className="col">
                     <div className="form-outline">
-                      <label className="form-label" for="form7Example1">
+                      <label className="form-label" htmlFor="firstName">
                         First name
                       </label>
                       <input
                         type="text"
-                        id="form7Example1"
-                        className="form-control"
+                        id="firstName"
+                        name="firstName"
+                        className={`form-control ${
+                          errors.firstName ? "is-invalid" : ""
+                        }`}
+                        value={formData.firstName}
+                        onChange={handleChange}
                       />
+                      {errors.firstName && (
+                        <div className="invalid-feedback">
+                          {errors.firstName}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col">
                     <div className="form-outline">
-                      <label className="form-label" for="form7Example2">
+                      <label className="form-label" htmlFor="lastName">
                         Last name
                       </label>
                       <input
                         type="text"
-                        id="form7Example2"
-                        className="form-control"
+                        id="lastName"
+                        name="lastName"
+                        className={`form-control ${
+                          errors.lastName ? "is-invalid" : ""
+                        }`}
+                        value={formData.lastName}
+                        onChange={handleChange}
                       />
+                      {errors.lastName && (
+                        <div className="invalid-feedback">
+                          {errors.lastName}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 <div className="form-outline mb-4">
-                  <label className="form-label" for="form7Example4">
+                  <label className="form-label" htmlFor="address">
                     Address
                   </label>
                   <input
                     type="text"
-                    id="form7Example4"
-                    className="form-control"
+                    id="address"
+                    name="address"
+                    className={`form-control ${
+                      errors.address ? "is-invalid" : ""
+                    }`}
+                    value={formData.address}
+                    onChange={handleChange}
                   />
+                  {errors.address && (
+                    <div className="invalid-feedback">{errors.address}</div>
+                  )}
                 </div>
                 <div className="d-flex gap-5">
                   <div className="form-outline mb-4">
-                    <label className="form-label" for="cityInput">
+                    <label className="form-label" htmlFor="cityInput">
                       City
                     </label>
                     <input
                       type="text"
                       id="cityInput"
-                      className="form-control"
-                      placeholder="Enter your city"
+                      name="city"
+                      className={`form-control ${
+                        errors.city ? "is-invalid" : ""
+                      }`}
+                      value={formData.city}
+                      onChange={handleChange}
                     />
+                    {errors.city && (
+                      <div className="invalid-feedback">{errors.city}</div>
+                    )}
                   </div>
 
                   <div className="form-outline mb-4">
-                    <label className="form-label" for="pincodeInput">
+                    <label className="form-label" htmlFor="pincodeInput">
                       Pin Code
                     </label>
                     <input
                       type="text"
                       id="pincodeInput"
-                      className="form-control"
-                      placeholder="Enter your pincode"
+                      name="pincode"
+                      className={`form-control ${
+                        errors.pincode ? "is-invalid" : ""
+                      }`}
+                      value={formData.pincode}
+                      onChange={handleChange}
                     />
+                    {errors.pincode && (
+                      <div className="invalid-feedback">{errors.pincode}</div>
+                    )}
                   </div>
                 </div>
                 <div className="form-outline mb-4">
-                  <label className="form-label" for="form7Example5">
+                  <label className="form-label" htmlFor="email">
                     Email
                   </label>
                   <input
                     type="email"
-                    id="form7Example5"
-                    className="form-control"
+                    id="email"
+                    name="email"
+                    className={`form-control ${
+                      errors.email ? "is-invalid" : ""
+                    }`}
+                    value={formData.email}
+                    onChange={handleChange}
                   />
+                  {errors.email && (
+                    <div className="invalid-feedback">{errors.email}</div>
+                  )}
                 </div>
 
                 <div className="form-outline mb-4">
-                  <label className="form-label" for="form7Example6">
+                  <label className="form-label" htmlFor="phone">
                     Phone
                   </label>
                   <input
                     type="phone"
-                    id="form7Example6"
-                    className="form-control"
+                    id="phone"
+                    name="phone"
+                    className={`form-control ${
+                      errors.phone ? "is-invalid" : ""
+                    }`}
+                    value={formData.phone}
+                    onChange={handleChange}
                   />
+                  {errors.phone && (
+                    <div className="invalid-feedback">{errors.phone}</div>
+                  )}
                 </div>
               </form>
             </div>
@@ -137,14 +282,6 @@ const CheckoutAlt = () => {
             </div>
             <div className="card-body">
               <ul className="list-group list-group-flush">
-                {/* <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                  Products
-                  <span>$53.98</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-center px-0">
-                  Shipping
-                  <span>Gratis</span>
-                </li> */}
                 {cart.map((item) => (
                   <li
                     key={item.id}
@@ -174,10 +311,6 @@ const CheckoutAlt = () => {
                   </span>
                 </li>
               </ul>
-              {/* 
-              <button type="button" className="btn btn-primary btn-lg btn-block">
-                Make purchase
-              </button> */}
             </div>
           </div>
 
@@ -189,7 +322,9 @@ const CheckoutAlt = () => {
               <div className="d-flex gap-5">
                 <div className="form-check">
                   <input
-                    className="form-check-input"
+                    className={`form-check-input ${
+                      paymentMethodError ? "is-invalid" : ""
+                    }`}
                     type="radio"
                     name="paymentMethod"
                     value="cashOnDelivery"
@@ -203,7 +338,9 @@ const CheckoutAlt = () => {
                 </div>
                 <div className="form-check">
                   <input
-                    className="form-check-input"
+                    className={`form-check-input ${
+                      paymentMethodError ? "is-invalid" : ""
+                    }`}
                     type="radio"
                     name="paymentMethod"
                     value="payWithCard"
@@ -216,6 +353,12 @@ const CheckoutAlt = () => {
                   </label>
                 </div>
               </div>
+              {paymentMethodError && (
+                <div className="invalid-feedback d-block">
+                  {paymentMethodError}
+                </div>
+              )}
+
               <button
                 onClick={handleMakePurchase}
                 type="button"
@@ -228,15 +371,38 @@ const CheckoutAlt = () => {
           </div>
         </div>
       </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)} backdrop="static">
+      <Modal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          setFormData({
+            firstName: "",
+            lastName: "",
+            address: "",
+            city: "",
+            pincode: "",
+            email: "",
+            phone: "",
+          });
+          dispatch(clearCart());
+        }}
+        backdrop="static"
+        centered
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Purchase</Modal.Title>
+          <Modal.Title style={{ marginLeft: "37px" }}>
+            Purchase Confirmed
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Confirm />
+          <Confirm
+            name={`${formData.firstName} ${formData.lastName}`}
+            address={formData.address}
+            orderNumber={orderNumber}
+          />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={() => navigate("/track")}>
             Track
           </Button>
         </Modal.Footer>

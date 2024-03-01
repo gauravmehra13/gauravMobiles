@@ -1,14 +1,25 @@
-import React from 'react'
-import "./Scroll.css"
-const ScrollButton = () => {
-  return (
-    <div>
-      <span class="hero__scroll aos-init aos-animate" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="800">
-				Scroll down <br/>
-				<i class="chevron bottom"></i>
-			</span>
-    </div>
-  )
-}
+import React, { useRef } from "react";
+import "./Scroll.css";
 
-export default ScrollButton
+const ScrollButton = () => {
+  const featureCardsRef = useRef(null);
+
+  const scrollToFeatureCards = () => {
+    featureCardsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <div
+      onClick={scrollToFeatureCards}
+      style={{ position: "relative", top: 35 }}
+    >
+      <span>
+        <div className="scroll-down"></div>
+        <div className="scroll-down"></div>
+      </span>
+      <div ref={featureCardsRef}></div>
+    </div>
+  );
+};
+
+export default ScrollButton;

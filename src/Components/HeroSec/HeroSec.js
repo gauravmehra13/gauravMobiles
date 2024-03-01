@@ -90,8 +90,9 @@ const HeroSec = () => {
 
     <div className="container">
       <div
-        className="d-sm-flex align-items-center justify-content-between w-100 bg-light ps-5 mt-5"
-        style={{ height: "80vh",borderRadius:"16px" }}
+        id="herosection"
+        className="d-sm-flex align-items-center justify-content-between w-100 bg-light mt-5"
+        style={{ height: "80vh", borderRadius: "16px" }}
       >
         <div className="herosec col-md-4 mx-auto mb-4 mb-sm-0 headline">
           {/* <span className="text-secondary text-uppercase">Subheadline</span> */}
@@ -113,7 +114,7 @@ const HeroSec = () => {
           className="col-md-8 h-100 clipped"
           style={{
             minHeight: "350px",
-            borderRadius:"16px",
+            borderRadius: "16px",
             backgroundImage:
               "url(https://img.freepik.com/free-photo/young-woman-sitting-stairs-talking-phone_1303-13708.jpg?w=1380&t=st=1709120926~exp=1709121526~hmac=c3a31ad495a1b9ee5467f7e2f0f9c1f955c0cdd35c807c1c37b7778a7e718ced)",
             backgroundPosition: "center",

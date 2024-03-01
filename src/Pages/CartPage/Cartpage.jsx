@@ -11,7 +11,22 @@ import {
 
 import "./CartpageStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircle,
+  faMinus,
+  faPlus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardImg,
+  Col,
+  Container,
+  Row,
+} from "react-bootstrap";
 const Cartpage = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(
     (state) => state.allCart
@@ -23,7 +38,7 @@ const Cartpage = () => {
 
   useEffect(() => {
     dispatch(getCartTotal());
-  }, [cart,dispatch]);
+  }, [cart, dispatch]);
 
   return (
     <div>
@@ -86,8 +101,8 @@ const Cartpage = () => {
                               className="d-flex mb-4"
                               style={{ maxWidth: "300px" }}
                             >
-                              <button
-                                className="btn btn-primary px-3 me-2"
+                              <Button
+                                className="btn btn-light px-3 me-2"
                                 onClick={() =>
                                   dispatch(decreaseItemQuantity(data.id))
                                 }
@@ -96,7 +111,7 @@ const Cartpage = () => {
                                 <FontAwesomeIcon
                                   icon={faMinus}
                                 ></FontAwesomeIcon>
-                              </button>
+                              </Button>
 
                               <div className="form-outline">
                                 <input
@@ -111,8 +126,8 @@ const Cartpage = () => {
                                 />
                               </div>
 
-                              <button
-                                className="btn btn-primary px-3 ms-2"
+                              <Button
+                                className="btn btn-light px-3 ms-2"
                                 onClick={() =>
                                   dispatch(increaseItemQuantity(data.id))
                                 }
@@ -121,7 +136,7 @@ const Cartpage = () => {
                                 <FontAwesomeIcon
                                   icon={faPlus}
                                 ></FontAwesomeIcon>
-                              </button>
+                              </Button>
                             </div>
 
                             <p className="text-start text-md-center">
@@ -183,19 +198,20 @@ const Cartpage = () => {
                       </span>
                     </li>
                   </ul>
-                  <div style={{ display: "flex", gap: "20px" }}>
-                    <Link
+                  <div style={{ gap: "20px" }} className="text-center">
+                    {/* <Link
                       to="/product"
                       type="button"
                       className="btn btn-success btn-lg "
                     >
                       Continue Shopping
-                    </Link>
+                    </Link> */}
 
                     <Link
                       to="/checkout"
                       type="button"
-                      className="btn btn-primary btn-lg "
+                      className="btn btn-light text-white "
+                      style={{ background: "#ff5e14" }}
                     >
                       Go to checkout
                     </Link>

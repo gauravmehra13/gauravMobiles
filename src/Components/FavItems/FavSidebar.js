@@ -33,7 +33,7 @@ const FavSidebar = ({ show, onHide }) => {
 <>
         {favoriteItems.map((item, index) => (
             <>
-              <div className="card" style={{ position: "relative" }}>
+              <div className="card" style={{ position: "relative" }} key={index}>
                 <div
                   className="d-flex align-items-center"
                   style={{ height: "120px", gap: "15px" }}

@@ -4,9 +4,14 @@
 .clipped {
   clip-path: polygon(50% 0, 100% 0, 100% 100%, 0% 100%);
 }
+
+#herosection {
+  padding-left: 20px;
+}
 @media screen and (max-width: 800px) {
-  .herosec {
+  #herosection {
     padding: 20px;
+
     margin-bottom: 50px;
   }
   .headline {

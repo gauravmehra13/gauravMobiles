@@ -9,8 +9,8 @@ const FeatureCards = () => {
           <h1>Fast and Secure Shopping</h1>
 
           <p>
-            Our Artificial Intelligence powered tools use millions of project
-            data points to ensure that your project is successful
+            Experience seamless shopping and reliable delivery with our advanced
+            solutions.
           </p>
         </div>
         <div className="row1-container">

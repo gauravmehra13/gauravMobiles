@@ -15,7 +15,9 @@ import { getCartTotal, queryData } from "../../app/cartSlice";
 import FavSidebar from "../FavItems/FavSidebar";
 
 function NavScrollExample() {
-  const { cart, totalQuantity } = useSelector((state) => state.allCart);
+  const { cart, totalQuantity, favoriteItems } = useSelector(
+    (state) => state.allCart
+  );
 
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -51,13 +53,11 @@ function NavScrollExample() {
 
   return (
     <>
-      <div className="container"></div>
-      <Navbar expand="lg" className=" text-white navbar container" sticky="top">
-        <Container fluid>
+      <Navbar expand="lg" className=" text-white navbar bg-dark" sticky="top">
+        <Container fluid className="pe-4">
           <Link to={"/"} style={{ textDecoration: "none" }}>
             <Navbar.Brand
               className="text-white d-flex"
-              href="#"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
               <img
@@ -108,7 +108,14 @@ function NavScrollExample() {
                 </NavLink>
               </div>
             </Nav>
-            <Form className="d-flex searchform p-3">
+            <Form
+              className="d-flex searchform"
+              style={{
+                gap: 20,
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
               {/* <Form.Control
                 type="search"
                 placeholder="Search"
@@ -122,12 +129,24 @@ function NavScrollExample() {
                 delay={{ show: 250, hide: 400 }}
                 overlay={renderTooltip}
               >
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  className="ms-3"
-                  style={{ cursor: "pointer", fontSize: "22px" }}
-                  onClick={() => setShowSidebar(true)}
-                />
+                <div
+                  className="position-relative"
+                  style={{ cursor: "pointer" }}
+                >
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    style={{ cursor: "pointer", fontSize: "24px" }}
+                    onClick={() => setShowSidebar(true)}
+                  />
+
+                  <Badge
+                    pill
+                    bg="danger"
+                    className="position-absolute top-0 right-0 translate-middle"
+                  >
+                    {favoriteItems.length}
+                  </Badge>
+                </div>
               </OverlayTrigger>
               <OverlayTrigger
                 placement="bottom"
@@ -141,7 +160,6 @@ function NavScrollExample() {
                 >
                   <FontAwesomeIcon
                     icon={faCartShopping}
-                    className="ms-3"
                     style={{ cursor: "pointer", fontSize: "26px" }}
                   />
                   <Badge
