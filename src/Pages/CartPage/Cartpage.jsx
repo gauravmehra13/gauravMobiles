@@ -47,8 +47,8 @@ const Cartpage = () => {
           <div className="row d-flex justify-content-center my-4">
             <div className="col-md-8">
               <div className="card mb-4">
-                <div className="card-header py-3">
-                  <h5 className="mb-0">Cart Items : {cart.length} </h5>
+                <div className="card-header py-3 bg-dark text-white">
+                  <h5 className="mb-0 ">Cart Items : {cart.length} </h5>
                 </div>
                 <div className="card-body" style={{ minHeight: "400px" }}>
                   {cart.length === 0 ? (
@@ -179,8 +179,8 @@ const Cartpage = () => {
             </div>
             <div className="col-md-4">
               <div className="card mb-4">
-                <div className="card-header py-3">
-                  <h5 className="mb-0">Summary</h5>
+                <div className="card-header py-3 bg-dark text-white">
+                  <h5 className="mb-0 ">Summary</h5>
                 </div>
                 <div className="card-body">
                   <ul className="list-group list-group-flush">

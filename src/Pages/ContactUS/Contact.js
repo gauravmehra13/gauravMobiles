@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Contact.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,10 +12,17 @@ import { Modal } from "react-bootstrap";
 
 const Contact = () => {
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleModal = () => {
-    setShowModal(!showModal);
+    setShowModal(true);
   };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  document.body.style.overflow = showModal === true ? "hidden" : "auto";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -82,6 +89,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      setLoading(true);
       try {
         const response = await axios.post(
           "https://api.emailjs.com/api/v1.0/email/send",
@@ -96,7 +104,10 @@ const Contact = () => {
         if (response.status === 200) {
           console.log("Email sent successfully");
 
-          toggleModal();
+          setTimeout(() => {
+            setLoading(false); // Stop loading
+            toggleModal(); // Open modal after 5 seconds
+          }, 2000);
 
           // Clear the contact form
           setFormData({
@@ -265,39 +276,33 @@ const Contact = () => {
           </div>
         </div>
       </section>
-      <Modal show={showModal} onHide={toggleModal} centered>
-        <Modal.Header closeButton></Modal.Header>
 
-        <Modal.Body
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            position: "relative",
-          }}
-        >
-          <div class="modal-confirm">
-            <div class="modal-content">
-              <div class="modal-header justify-content-center">
-                <div class="icon-box d-flex align-items-center">
-                  <i class="bi bi-check"></i>
+      {loading && ( // Display loading spinner if loading is true
+        <div className="overlay">
+          <div className="loading"></div>
+        </div>
+      )}
+
+      {showModal && ( // Display modal if showModal is true
+        <div className="overlay">
+          <div className="modal-confirm">
+            <div className="modal-content">
+              <div className="modal-header justify-content-center">
+                <div className="icon-box d-flex align-items-center">
+                  <i className="bi bi-check"></i>
                 </div>
               </div>
-
-              <div class="modal-body text-center">
+              <div className="modal-body text-center">
                 <h4>Great!</h4>
                 <p>Your mail has been sent successfully.</p>
-                <button
-                  class="btn btn-success"
-                  data-dismiss="modal"
-                  onClick={toggleModal}
-                >
+                <button className="btn btn-success" onClick={closeModal}>
                   <span>OK</span>
                 </button>
               </div>
             </div>
           </div>{" "}
-        </Modal.Body>
-      </Modal>{" "}
+        </div>
+      )}
     </div>
   );
 };
