@@ -10,6 +10,14 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init({
+  once: true,
+});
+
+
 const LatestProducts = () => {
   const data = useSelector((state) => state.allCart.items);
   const latestproducts = data.filter((items) => items.rating > 4);

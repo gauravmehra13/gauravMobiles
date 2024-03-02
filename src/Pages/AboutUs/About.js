@@ -7,16 +7,29 @@ import {
   faSquarePhone,
   faTruck,
 } from "@fortawesome/free-solid-svg-icons";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init({
+  once: true,
+});
+
 const About = () => {
   return (
     <>
-      <section className="bg-dark py-5 container mt-5" style={{borderRadius:"16px"}}>
+      <section
+        className="bg-dark py-5 container mt-5"
+        style={{ borderRadius: "16px" }}
+      >
         <div className="container">
           <div className="row align-items-center py-5">
             <div className="col-md-8 text-white">
               <h1 className="text-white">About Us</h1>
               <p>
-              At Gaurav Mobiles, we're passionate about bringing the latest and greatest smartphones to our customers. With a commitment to quality and innovation, we strive to provide a seamless shopping experience that exceeds expectations.
+                At Gaurav Mobiles, we're passionate about bringing the latest
+                and greatest smartphones to our customers. With a commitment to
+                quality and innovation, we strive to provide a seamless shopping
+                experience that exceeds expectations.
               </p>
             </div>
             <div className="col-md-4">
@@ -30,13 +43,17 @@ const About = () => {
           <div className="col-lg-6 m-auto">
             <h1 className="h1">Our Services</h1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod Lorem ipsum dolor sit amet.
+              Se provide efficient delivery services, hassle-free shipping and
+              returns, enticing promotions, and round-the-clock customer support
+              to ensure a seamless shopping experience.
             </p>
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6 col-lg-3 pb-5 serviceCard">
+          <div
+            className="col-md-6 col-lg-3 pb-5 serviceCard"
+            data-aos="fade-up"
+          >
             <div className="h-100 py-5 services-icon-wap shadow">
               <div className="h1  text-center">
                 <FontAwesomeIcon icon={faTruck} />{" "}
@@ -45,7 +62,10 @@ const About = () => {
             </div>
           </div>
 
-          <div className="col-md-6 col-lg-3 pb-5 serviceCard">
+          <div
+            className="col-md-6 col-lg-3 pb-5 serviceCard"
+            data-aos="fade-up"
+          >
             <div className="h-100 py-5 services-icon-wap shadow">
               <div className="h1  text-center">
                 <FontAwesomeIcon icon={faRightLeft} />{" "}
@@ -54,7 +74,10 @@ const About = () => {
             </div>
           </div>
 
-          <div className="col-md-6 col-lg-3 pb-5 serviceCard">
+          <div
+            className="col-md-6 col-lg-3 pb-5 serviceCard"
+            data-aos="fade-up"
+          >
             <div className="h-100 py-5 services-icon-wap shadow">
               <div className="h1  text-center">
                 <FontAwesomeIcon icon={faPercent} />{" "}
@@ -63,7 +86,10 @@ const About = () => {
             </div>
           </div>
 
-          <div className="col-md-6 col-lg-3 pb-5 serviceCard">
+          <div
+            className="col-md-6 col-lg-3 pb-5 serviceCard"
+            data-aos="fade-up"
+          >
             <div className="h-100 py-5 services-icon-wap shadow">
               <div className="h1 text-center">
                 <FontAwesomeIcon icon={faSquarePhone} />{" "}
@@ -79,8 +105,9 @@ const About = () => {
             <div className="col-lg-6 m-auto">
               <h1 className="h1">Our Brands</h1>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod Lorem ipsum dolor sit amet.
+                Discover a range of leading brands at Gaurav Mobiles, each known
+                for quality, innovation, and reliability, providing you with
+                diverse options to suit your mobile needs.
               </p>
             </div>
             <div className="col-lg-9 m-auto tempaltemo-carousel">

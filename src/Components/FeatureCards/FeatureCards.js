@@ -1,5 +1,12 @@
 import React from "react";
 import "./style.css";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init({
+  once: true,
+});
+
 const FeatureCards = () => {
   return (
     <>
@@ -14,7 +21,7 @@ const FeatureCards = () => {
           </p>
         </div>
         <div className="row1-container">
-          <div className="box box-down cyan">
+          <div className="box box-down cyan " data-aos="fade-up">
             <h2 className="cardHeading">Tailored Suggestions</h2>
             <p>Curates products tailored to your preferences</p>
             <img
@@ -24,7 +31,7 @@ const FeatureCards = () => {
             />
           </div>
 
-          <div className="box red">
+          <div className="box red" data-aos="fade-up">
             <h2 className="cardHeading">Real-Time Tracking</h2>
             <p>Track your package every step of the way</p>
             <img
@@ -34,7 +41,7 @@ const FeatureCards = () => {
             />
           </div>
 
-          <div className="box box-down blue">
+          <div className="box box-down blue" data-aos="fade-up">
             <h2 className="cardHeading">Instant Checkout</h2>
             <p>Speeds up your purchase process for hassle-free transactions</p>
             <img
@@ -45,7 +52,7 @@ const FeatureCards = () => {
           </div>
         </div>
         <div className="row2-container">
-          <div className="box orange">
+          <div className="box orange" data-aos="fade-up">
             <h2 className="cardHeading">Secure Payments</h2>
             <p>
               Ensures your financial information is safe with every transaction

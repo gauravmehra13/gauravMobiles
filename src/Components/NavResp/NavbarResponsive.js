@@ -81,8 +81,7 @@ function NavScrollExample() {
               <div className="links">
                 <NavLink
                   className="navigationlink"
-                  activeClassName="active"
-                  exact
+                  activeclassname="active"
                   to="/product"
                   style={{ textDecoration: "none" }}
                 >
@@ -90,8 +89,7 @@ function NavScrollExample() {
                 </NavLink>
                 <NavLink
                   className="navigationlink"
-                  activeClassName="active"
-                  exact
+                  activeclassname="active"
                   to="/about"
                   style={{ textDecoration: "none" }}
                 >
@@ -99,8 +97,7 @@ function NavScrollExample() {
                 </NavLink>
                 <NavLink
                   className="navigationlink"
-                  activeClassName="active"
-                  exact
+                  activeclassname="active"
                   to="/contact"
                   style={{ textDecoration: "none" }}
                 >

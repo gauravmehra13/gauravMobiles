@@ -7,8 +7,14 @@ import {
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
 import axios from "axios";
-import SuccessPopup from "../../Components/Popup/SuccessPopup/SuccessPopup";
 import { Modal } from "react-bootstrap";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init({
+  once: true,
+  duration: 800,
+});
 
 const Contact = () => {
   const [showModal, setShowModal] = useState(false);
@@ -245,7 +251,7 @@ const Contact = () => {
                 </form>
               </div>
             </div>
-            <div className="col-md-5 col-lg-4 m-15px-tb">
+            <div className="col-md-5 col-lg-4 m-15px-tb" data-aos="fade-down">
               <div className="contact-name">
                 <h5>Mail</h5>
                 <p>gauravmehra2470@gmail.com</p>
@@ -284,7 +290,7 @@ const Contact = () => {
       )}
 
       {showModal && ( // Display modal if showModal is true
-        <div className="overlay">
+        <div className="overlay" data-aos="fade-up">
           <div className="modal-confirm">
             <div className="modal-content">
               <div className="modal-header justify-content-center">

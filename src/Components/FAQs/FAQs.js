@@ -1,7 +1,12 @@
 import React from "react";
 import "./FAQ.css";
 import Accordion from "react-bootstrap/Accordion";
-
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init({
+  once: true,
+});
 const FAQs = () => {
   return (
     <section className=" py-3 py-md-5">
@@ -18,8 +23,10 @@ const FAQs = () => {
           <div className="col-12 col-lg-6">
             <div className="row justify-content-xl-end">
               <div className="col-12 col-xl-11">
-                <h2 className="h1 mb-3">How can we help you?</h2>
-                <p className="lead fs-5 text-secondary mb-5">
+                <h2 className="h1 mb-3" data-aos="fade-up">
+                  How can we help you?
+                </h2>
+                <p className="lead fs-5 text-secondary mb-5" data-aos="fade-up">
                   We hope you have found an answer to your question. If you need
                   any help, please search your query on our Support Center or
                   contact us via email.

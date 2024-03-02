@@ -11,22 +11,9 @@ import {
 
 import "./CartpageStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircle,
-  faMinus,
-  faPlus,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardImg,
-  Col,
-  Container,
-  Row,
-} from "react-bootstrap";
+import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "react-bootstrap";
+import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 const Cartpage = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(
     (state) => state.allCart
@@ -82,7 +69,6 @@ const Cartpage = () => {
                               title="Remove item"
                               onClick={() => dispatch(removeItem(data.id))}
                             >
-                              {/* <i className="fas fa-trash"></i> */}
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
 
@@ -107,7 +93,6 @@ const Cartpage = () => {
                                   dispatch(decreaseItemQuantity(data.id))
                                 }
                               >
-                                {/* <i className="fas fa-minus"></i> */}
                                 <FontAwesomeIcon
                                   icon={faMinus}
                                 ></FontAwesomeIcon>
@@ -213,6 +198,7 @@ const Cartpage = () => {
                       className="btn btn-light text-white "
                       style={{ background: "#ff5e14" }}
                     >
+                      <FontAwesomeIcon icon={faCreditCard} className="me-2" />
                       Go to checkout
                     </Link>
                   </div>

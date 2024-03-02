@@ -34,3 +34,9 @@
     opacity: 0;
   }
 }
+
+@media (max-width : 800px) {
+  .scroll-down{
+    display: none;
+  }
+}

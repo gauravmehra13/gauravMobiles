@@ -5,6 +5,15 @@ import { getCartTotal, clearCart } from "../../app/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Confirm from "../../Components/ConfirmationPopup/Confirm";
 import { Modal, Button } from "react-bootstrap"; // Import Bootstrap modal components
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init({
+  once: true,
+  duration: 800,
+});
 
 const CheckoutAlt = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(
@@ -359,19 +368,21 @@ const CheckoutAlt = () => {
                 </div>
               )}
 
-              <button
+              <Button
                 onClick={handleMakePurchase}
-                type="button"
-                className="btn btn-light btn-lg btn-block mt-3"
+                type="Button"
+                className="btn btn-light btn-lg  mt-3"
                 style={{ background: "#ff5e14", color: "white" }}
               >
+                <FontAwesomeIcon icon={faCreditCard} className="me-2" />
                 Make purchase
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       </div>
       <Modal
+        data-aos="fade-up"
         show={showModal}
         onHide={() => {
           setShowModal(false);

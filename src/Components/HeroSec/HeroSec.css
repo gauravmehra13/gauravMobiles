@@ -11,7 +11,7 @@
 @media screen and (max-width: 800px) {
   #herosection {
     padding: 20px;
-
+    height: 700px;
     margin-bottom: 50px;
   }
   .headline {
