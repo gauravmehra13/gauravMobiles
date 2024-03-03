@@ -69,13 +69,19 @@ const Footer = () => {
                   </div>
                   <div className="footer-social-icon">
                     <span>Follow us</span>
-                    <a className="dribbble" href="#">
+                    <a className="dribbble" href="https://www.instagram.com/">
                       <FontAwesomeIcon icon={faInstagram} />{" "}
                     </a>
-                    <a className="behance" href="#">
+                    <a
+                      className="behance footicon"
+                      href="https://www.linkedin.com/in/gaurav-mehra-95230a1a5/"
+                    >
                       <FontAwesomeIcon icon={faLinkedinIn} />{" "}
                     </a>
-                    <a className="linkedin" href="#">
+                    <a
+                      className="linkedin footicon"
+                      href="https://github.com/gauravmehra13"
+                    >
                       <FontAwesomeIcon icon={faGithub} />{" "}
                     </a>
                   </div>
@@ -88,28 +94,22 @@ const Footer = () => {
                   </div>
                   <ul>
                     <li>
-                      <a href="#">Home</a>
+                      <a href="/">Home</a>
                     </li>
                     <li>
-                      <a href="#">portfolio</a>
+                      <a href="https://github.com/gauravmehra13">portfolio</a>
                     </li>
                     <li>
-                      <a href="#">Contact</a>
+                      <a href="/contact">Contact</a>
                     </li>
                     <li>
-                      <a href="#">About us</a>
+                      <a href="/about">About us</a>
                     </li>
+
                     <li>
-                      <a href="#">Our Services</a>
-                    </li>
-                    <li>
-                      <a href="#">Expert Team</a>
-                    </li>
-                    <li>
-                      <a href="#">Contact us</a>
-                    </li>
-                    <li>
-                      <a href="#">Latest News</a>
+                      <a href="https://www.linkedin.com/in/gaurav-mehra-95230a1a5/">
+                        Latest News
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -121,8 +121,8 @@ const Footer = () => {
                   </div>
                   <div className="footer-text mb-25">
                     <p>
-                      Don’t miss to subscribe to our new feeds, kindly fill the
-                      form below.
+                      Don&apos;t miss to subscribe to our new feeds, kindly fill
+                      the form below.
                     </p>
                   </div>
                   <div className="subscribe-form">
@@ -153,19 +153,19 @@ const Footer = () => {
                 <div className="footer-menu">
                   <ul>
                     <li>
-                      <a href="#">Home</a>
+                      <a href="/">Home</a>
                     </li>
                     <li>
-                      <a href="#">Terms</a>
+                      <a href="/about">Terms</a>
                     </li>
                     <li>
-                      <a href="#">Privacy</a>
+                      <a href="/about">Privacy</a>
                     </li>
                     <li>
-                      <a href="#">Policy</a>
+                      <a href="/about">Policy</a>
                     </li>
                     <li>
-                      <a href="#">Contact</a>
+                      <a href="/contact">Contact</a>
                     </li>
                   </ul>
                 </div>

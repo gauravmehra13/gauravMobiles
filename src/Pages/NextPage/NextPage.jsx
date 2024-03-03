@@ -1,12 +1,12 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart, addToFavorites } from "../../app/cartSlice";
 import Star from "../../Components/Star/Star";
 
 import "./NextPageStyles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart,faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
 
 const NextPage = () => {
@@ -42,11 +42,11 @@ const NextPage = () => {
                     41 reviews
                   </span>
                 </div>
-                <p className="product-description">
+                {/* <p className="product-description">
                   Suspendisse quos? Tempus cras iure temporibus? Eu laudantium
                   cubilia sem sem! Repudiandae et! Massa senectus enim minim
                   sociosqu delectus posuere.
-                </p>
+                </p> */}
                 <h4 className="price">
                   current price: <span>Rs {data.price}</span>
                 </h4>
@@ -66,6 +66,10 @@ const NextPage = () => {
                     type="button"
                     onClick={(e) => handleAddToCartClick(e, data)}
                   >
+                    <FontAwesomeIcon
+                    icon={faCartShopping}
+                    className="me-2"
+                    />
                     add to cart
                   </button>
                   <Button

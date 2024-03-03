@@ -17,7 +17,6 @@ AOS.init({
   once: true,
 });
 
-
 const LatestProducts = () => {
   const data = useSelector((state) => state.allCart.items);
   const latestproducts = data.filter((items) => items.rating > 4);
@@ -120,16 +119,13 @@ const LatestProducts = () => {
             className="swiper-button-prev"
             onClick={() => swiperRef.current.slidePrev()}
           >
-            <FontAwesomeIcon icon={faChevronLeft} style={{ color: "orange" }} />
+            <FontAwesomeIcon icon={faChevronLeft} />
           </div>
           <div
             className="swiper-button-next"
             onClick={() => swiperRef.current.slideNext()}
           >
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              style={{ color: "orange" }}
-            />
+            <FontAwesomeIcon icon={faChevronRight} />
           </div>
         </div>
         <div className="slider-container">

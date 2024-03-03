@@ -3,7 +3,6 @@ import "./PaymentPageStyles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../../app/cartSlice";
-import { Spinner } from "react-bootstrap";
 
 const PaymentPage = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(

@@ -22,3 +22,29 @@
     max-height: 300px !important;
   }
 }
+/* .shopnow {
+  background: #ff5e14;
+  color: #fff;
+  transition: all 0.55s ease;
+}
+.shopnow :hover {
+  transform: translateX(8px);
+} */
+
+.shopnow {
+  border-radius: 30px;
+  transition: transform 0.3s;
+  background-color: #ff5e14;
+  color: white;
+}
+
+.shopnow:hover {
+  transform: translateX(9px);
+  background: transparent;
+  border: 1px solid red;
+  color: #ff5e14;
+}
+
+.shopnow-text {
+  display: inline-block; /* Ensure proper positioning of the text */
+}

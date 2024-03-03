@@ -19,8 +19,8 @@ const Cartpage = () => {
     (state) => state.allCart
   );
 
-  const tax = (19 / 100) * totalPrice;
-  const totalbill = totalPrice + tax;
+  // const tax = (19 / 100) * totalPrice;
+  // const totalbill = totalPrice + tax;
   const dispatch = useDispatch();
 
   useEffect(() => {

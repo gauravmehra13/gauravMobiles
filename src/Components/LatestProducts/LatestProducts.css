@@ -157,14 +157,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #ff5e14;
   font-size: 20px;
 }
 
 .swiper-button-prev:hover,
 .swiper-button-next:hover {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #ff5e14;
+  color: white;
 }
 
 @media (max-width: 500px) {

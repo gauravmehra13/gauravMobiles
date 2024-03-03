@@ -20,11 +20,7 @@ const HeroSec = () => {
               Explore the World of Smartphones{" "}
             </span>
           </h1>
-          <Link
-            to={"/product"}
-            className="btn px-5 py-3 text-white mt-3 mt-sm-0"
-            style={{ borderRadius: 30, backgroundColor: "#ff5e14" }}
-          >
+          <Link to={"/product"} className="btn px-5 py-3 mt-3 mt-sm-0 shopnow">
             <FontAwesomeIcon icon={faCartShopping} className="me-2" />
             Shop Now
           </Link>

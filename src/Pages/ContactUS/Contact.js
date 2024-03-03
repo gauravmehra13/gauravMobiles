@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import "./Contact.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,10 +7,9 @@ import {
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
 import axios from "axios";
-import { Modal } from "react-bootstrap";
 import AOS from "aos";
-import "aos/dist/aos.css"; // You can also use <link> for styles
-// ..
+import "aos/dist/aos.css";
+
 AOS.init({
   once: true,
   duration: 800,
@@ -100,9 +99,9 @@ const Contact = () => {
         const response = await axios.post(
           "https://api.emailjs.com/api/v1.0/email/send",
           {
-            service_id: "service_z9gxn1k",
-            template_id: "template_2ekoav6",
-            user_id: "tux0jR-t4f8Jhgtd5",
+            service_id: process.env.REACT_APP_EMAILJS_SERVICE_ID,
+            template_id: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+            user_id: process.env.REACT_APP_EMAILJS_USER_ID,
             template_params: formData,
           }
         );
@@ -111,7 +110,7 @@ const Contact = () => {
           console.log("Email sent successfully");
 
           setTimeout(() => {
-            setLoading(false); // Stop loading
+            setLoading(false);
             toggleModal(); // Open modal after 5 seconds
           }, 2000);
 
@@ -122,14 +121,11 @@ const Contact = () => {
             subject: "",
             message: "",
           });
-          // You can also add code here to show a success message to the user
         } else {
           console.error("Failed to send email:", response.statusText);
-          // You can also add code here to show an error message to the user
         }
       } catch (error) {
         console.error("Error sending email:", error);
-        // You can also add code here to show an error message to the user
       }
     } else {
       console.log("Form is invalid. Please check the fields.");
@@ -145,8 +141,9 @@ const Contact = () => {
               <div className="section-title">
                 <h2>Get In Touch</h2>
                 <p>
-                  I design and develop services for customers of all sizes,
-                  specializing in creating stylish, modern websites
+                  Need help? We're here! Contact us for assistance with orders,
+                  products, or any questions you have. Email, call, or
+                  chat—we're ready to assist.
                 </p>
               </div>
             </div>
@@ -268,13 +265,16 @@ const Contact = () => {
                 <p>+91 9557915695</p>
               </div>
               <div className="social-share nav">
-                <a className="dribbble" href="#">
+                <a className="dribbble" href="https://www.instagram.com/">
                   <FontAwesomeIcon icon={faInstagram} />{" "}
                 </a>
-                <a className="behance" href="#">
+                <a
+                  className="behance"
+                  href="https://www.linkedin.com/in/gaurav-mehra-95230a1a5/"
+                >
                   <FontAwesomeIcon icon={faLinkedinIn} />{" "}
                 </a>
-                <a className="linkedin" href="#">
+                <a className="linkedin" href="https://github.com/gauravmehra13">
                   <FontAwesomeIcon icon={faGithub} />{" "}
                 </a>
               </div>
@@ -283,13 +283,13 @@ const Contact = () => {
         </div>
       </section>
 
-      {loading && ( // Display loading spinner if loading is true
+      {loading && (
         <div className="overlay">
           <div className="loading"></div>
         </div>
       )}
 
-      {showModal && ( // Display modal if showModal is true
+      {showModal && (
         <div className="overlay" data-aos="fade-up">
           <div className="modal-confirm">
             <div className="modal-content">
