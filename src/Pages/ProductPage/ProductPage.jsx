@@ -3,19 +3,21 @@ import "./ProductPageStyle.css";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, addToFavorites, queryData } from "../../app/cartSlice";
 import { useNavigate } from "react-router-dom";
-import { Button, Row, Col, Badge } from "react-bootstrap"; // Import Row and Col from react-bootstrap
-import {
-  faHeart,
-  faStar,
-  faStarHalf,
-} from "@fortawesome/free-regular-svg-icons";
-
+import { Button, Row, Col } from "react-bootstrap"; // Import Row and Col from react-bootstrap
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Carousel from "react-bootstrap/Carousel";
-import Form from "react-bootstrap/Form";
 import Star from "../../Components/Star/Star";
 
 const ProductPage = () => {
+  const [clickedIndex, setClickedIndex] = useState(null);
+
+  // const cartBtn = document.querySelector(".cart-btn");
+
+  // cartBtn.addEventListener("click", () => {
+  //   cartBtn.classList.add("clicked");
+  // });
+
   const data = useSelector((state) => state.allCart.items);
   const query = useSelector((state) => state.allCart.query);
 
@@ -30,7 +32,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     setFilteredItems(filteredData);
-  }, []);
+  }, [filteredData]);
 
   const handleCardClick = (val) => {
     navigate("/next", { state: { data: val } });
@@ -51,9 +53,10 @@ const ProductPage = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleAddToCartClick = (e, val) => {
+  const handleAddToCartClick = (e, val, index) => {
     e.stopPropagation();
     dispatch(addToCart(val));
+    setClickedIndex(val.id);
   };
 
   const handleAddToFavClick = (e, val) => {
@@ -70,7 +73,7 @@ const ProductPage = () => {
   };
 
   const [minPrice, setMinPrice] = useState(10000);
-  const [maxPrice, setMaxPrice] = useState(200000);
+  const [maxPrice, setMaxPrice] = useState(150000);
 
   const handlePriceRangeChange = (e) => {
     const value = parseInt(e.target.value);
@@ -81,36 +84,38 @@ const ProductPage = () => {
   const [filters, setFilters] = useState({
     brand: [],
     rating: [],
-    priceRange: { min: 10000, max: 200000 },
+    priceRange: { min: 10000, max: 150000 },
   });
 
-  const applyFilters = () => {
-    let filteredData = data.filter((product) => {
-      // Filter by brand
-      if (filters.brand.length > 0 && !filters.brand.includes(product.brand)) {
-        return false;
-      }
-      // Filter by rating
-      if (
-        filters.rating.length > 0 &&
-        !filters.rating.includes(product.rating)
-      ) {
-        return false;
-      }
-      // Filter by price range
-      if (
-        product.price < filters.priceRange.min ||
-        product.price > filters.priceRange.max
-      ) {
-        return false;
-      }
-      return true;
-    });
-    setFilteredItems(filteredData);
-  };
-
   useEffect(() => {
-    // Apply filters whenever filters state changes or data changes
+    const applyFilters = () => {
+      let filteredData = data.filter((product) => {
+        // Filter by brand
+        if (
+          filters.brand.length > 0 &&
+          !filters.brand.includes(product.brand)
+        ) {
+          return false;
+        }
+        // Filter by rating
+        if (
+          filters.rating.length > 0 &&
+          !filters.rating.includes(product.rating)
+        ) {
+          return false;
+        }
+        // Filter by price range
+        if (
+          product.price < filters.priceRange.min ||
+          product.price > filters.priceRange.max
+        ) {
+          return false;
+        }
+        return true;
+      });
+      setFilteredItems(filteredData);
+    };
+
     applyFilters();
   }, [filters, data]);
 
@@ -162,7 +167,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-5 mb-5">
         <Carousel className="car mb-5">
           <Carousel.Item interval={5000}>
             <img
@@ -255,12 +260,12 @@ const ProductPage = () => {
                           >
                             {brand}
                           </label>
-                          <Badge
-                            className="badge bg-success float-end"
+                          <span
+                            className="text-center float-end bg-light"
                             style={{ width: "30px" }}
                           >
                             {countProductsByBrand(brand)}
-                          </Badge>
+                          </span>
                         </div>
                       )
                     )}
@@ -280,7 +285,7 @@ const ProductPage = () => {
                         type="range"
                         className="custom-range"
                         min="10000"
-                        max="200000"
+                        max="150000"
                         value={maxPrice}
                         onChange={handlePriceRangeChange}
                       />
@@ -292,7 +297,7 @@ const ProductPage = () => {
                           <input
                             type="number"
                             className="form-control"
-                            placeholder="Rs 200000"
+                            placeholder="Min Price"
                             value={minPrice}
                             onChange={(e) =>
                               setMinPrice(parseInt(e.target.value))
@@ -387,15 +392,16 @@ const ProductPage = () => {
                   alignItems: "center",
                 }}
               >
-                <span>{filteredItems.length} Items found </span>
-                <button
-                  className="btn btn-dark me-2"
+                <span>{filteredItems.length} Items </span>
+                <Button
+                  className="btn btn-light me-2"
                   style={{ marginLeft: "auto" }}
                   onClick={clearFilters}
                 >
+                  <i className="bi bi-filter me-1"></i>
                   Clear Filters
-                </button>
-                <nav className="pagination-outer" aria-label="Page navigation">
+                </Button>
+                {/* <nav className="pagination-outer" aria-label="Page navigation">
                   <ul className="pagination">
                     <li className="page-item">
                       <button
@@ -440,6 +446,55 @@ const ProductPage = () => {
                       </button>
                     </li>
                   </ul>
+                </nav> */}
+
+                <nav className="Pager1" aria-label="pagination example">
+                  <ul className="pagination pagination-circle justify-content-center">
+                    <li className="page-item">
+                      <button
+                        className="page-link"
+                        aria-label="Previous"
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                        <span className="sr-only">Previous</span>
+                      </button>
+                    </li>
+
+                    {Array(Math.ceil(data.length / productsPerPage))
+                      .fill()
+                      .map((_, index) => (
+                        <li
+                          key={index}
+                          className={`page-item ${
+                            currentPage === index + 1 ? "active" : ""
+                          }`}
+                        >
+                          <button
+                            className="page-link next"
+                            onClick={() => paginate(index + 1)}
+                          >
+                            {index + 1}
+                          </button>
+                        </li>
+                      ))}
+
+                    <li className="page-item">
+                      <button
+                        className="page-link"
+                        aria-label="Next"
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={
+                          currentPage ===
+                          Math.ceil(data.length / productsPerPage)
+                        }
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                        <span className="sr-only">Next</span>
+                      </button>
+                    </li>
+                  </ul>
                 </nav>
               </div>
             </header>
@@ -465,14 +520,27 @@ const ProductPage = () => {
                       <Star stars={val.rating}></Star>
                     </div>
                     <div className="card-text">Rs {val.price}</div>
-                    <li
+                    {/* <li
                       onClick={(e) => handleAddToCartClick(e, val)}
                       className="card-button"
                       style={{ cursor: "pointer" }}
                     >
                       <span className="bi bi-cart mx-2"></span>
                       Add To Cart
-                    </li>
+                    </li> */}
+
+                    <button
+                      className={`cart-btn ${
+                        val.id === clickedIndex ? "clicked" : ""
+                      }`}
+                      onClick={(e) => handleAddToCartClick(e, val)}
+                    >
+                      <span className="icon-container">
+                        <i className="bi bi-cart icon-c"></i>
+                      </span>
+                      <span className="primary-text">add item</span>
+                      <span className="secondary-text">item added</span>
+                    </button>
                   </div>
                 </Col>
               ))}

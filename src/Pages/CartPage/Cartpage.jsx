@@ -12,18 +12,20 @@ import {
 import "./CartpageStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "react-bootstrap";
+import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 const Cartpage = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(
     (state) => state.allCart
   );
 
-  const tax = (19 / 100) * totalPrice;
-  const totalbill = totalPrice + tax;
+  // const tax = (19 / 100) * totalPrice;
+  // const totalbill = totalPrice + tax;
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCartTotal());
-  }, [cart,dispatch]);
+  }, [cart, dispatch]);
 
   return (
     <div>
@@ -32,8 +34,8 @@ const Cartpage = () => {
           <div className="row d-flex justify-content-center my-4">
             <div className="col-md-8">
               <div className="card mb-4">
-                <div className="card-header py-3">
-                  <h5 className="mb-0">Cart Items : {cart.length} </h5>
+                <div className="card-header py-3 bg-dark text-white">
+                  <h5 className="mb-0 ">Cart Items : {cart.length} </h5>
                 </div>
                 <div className="card-body" style={{ minHeight: "400px" }}>
                   {cart.length === 0 ? (
@@ -67,7 +69,6 @@ const Cartpage = () => {
                               title="Remove item"
                               onClick={() => dispatch(removeItem(data.id))}
                             >
-                              {/* <i className="fas fa-trash"></i> */}
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
 
@@ -86,17 +87,16 @@ const Cartpage = () => {
                               className="d-flex mb-4"
                               style={{ maxWidth: "300px" }}
                             >
-                              <button
-                                className="btn btn-primary px-3 me-2"
+                              <Button
+                                className="btn btn-light px-3 me-2"
                                 onClick={() =>
                                   dispatch(decreaseItemQuantity(data.id))
                                 }
                               >
-                                {/* <i className="fas fa-minus"></i> */}
                                 <FontAwesomeIcon
                                   icon={faMinus}
                                 ></FontAwesomeIcon>
-                              </button>
+                              </Button>
 
                               <div className="form-outline">
                                 <input
@@ -111,8 +111,8 @@ const Cartpage = () => {
                                 />
                               </div>
 
-                              <button
-                                className="btn btn-primary px-3 ms-2"
+                              <Button
+                                className="btn btn-light px-3 ms-2"
                                 onClick={() =>
                                   dispatch(increaseItemQuantity(data.id))
                                 }
@@ -121,7 +121,7 @@ const Cartpage = () => {
                                 <FontAwesomeIcon
                                   icon={faPlus}
                                 ></FontAwesomeIcon>
-                              </button>
+                              </Button>
                             </div>
 
                             <p className="text-start text-md-center">
@@ -164,8 +164,8 @@ const Cartpage = () => {
             </div>
             <div className="col-md-4">
               <div className="card mb-4">
-                <div className="card-header py-3">
-                  <h5 className="mb-0">Summary</h5>
+                <div className="card-header py-3 bg-dark text-white">
+                  <h5 className="mb-0 ">Summary</h5>
                 </div>
                 <div className="card-body">
                   <ul className="list-group list-group-flush">
@@ -183,20 +183,22 @@ const Cartpage = () => {
                       </span>
                     </li>
                   </ul>
-                  <div style={{ display: "flex", gap: "20px" }}>
-                    <Link
+                  <div style={{ gap: "20px" }} className="text-center">
+                    {/* <Link
                       to="/product"
                       type="button"
                       className="btn btn-success btn-lg "
                     >
                       Continue Shopping
-                    </Link>
+                    </Link> */}
 
                     <Link
                       to="/checkout"
                       type="button"
-                      className="btn btn-primary btn-lg "
+                      className="btn btn-light text-white "
+                      style={{ background: "#ff5e14" }}
                     >
+                      <FontAwesomeIcon icon={faCreditCard} className="me-2" />
                       Go to checkout
                     </Link>
                   </div>

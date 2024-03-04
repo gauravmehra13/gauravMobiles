@@ -1,7 +1,3 @@
-import { faStarHalfAlt } from "@fortawesome/free-regular-svg-icons";
-import { faStar, faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import React from "react";
 
 const Star = ({ stars }) => {
@@ -11,11 +7,11 @@ const Star = ({ stars }) => {
     return (
       <span key={index}>
         {stars >= index + 1 ? (
-          <i class="bi bi-star-fill" style={{ color: "gold" }}></i>
+          <i className="bi bi-star-fill" style={{ color: "gold" }}></i>
         ) : stars >= number ? (
-          <i class="bi bi-star-half" style={{ color: "gold" }}></i>
+          <i className="bi bi-star-half" style={{ color: "gold" }}></i>
         ) : (
-          <i class="bi bi-star" style={{ color: "gold" }}></i>
+          <i className="bi bi-star" style={{ color: "gold" }}></i>
         )}
       </span>
     );
