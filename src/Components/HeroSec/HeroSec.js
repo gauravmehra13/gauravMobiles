@@ -31,7 +31,7 @@ const HeroSec = () => {
             minHeight: "350px",
             borderRadius: "16px",
             backgroundImage:
-              "url(https://img.freepik.com/free-photo/young-woman-sitting-stairs-talking-phone_1303-13708.jpg?w=1380&t=st=1709120926~exp=1709121526~hmac=c3a31ad495a1b9ee5467f7e2f0f9c1f955c0cdd35c807c1c37b7778a7e718ced)",
+              "url(https://images.unsplash.com/photo-1523371683773-affcb4a2e39e?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
             backgroundPosition: "center",
             backgroundSize: "cover",
           }}

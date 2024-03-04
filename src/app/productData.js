@@ -94,7 +94,7 @@ const productData = [
     img: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1683553501/Croma%20Assets/Communication/Mobiles/Images/264831_0_lxh8mq.png?tr=w-640",
     img2: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1683553510/Croma%20Assets/Communication/Mobiles/Images/264831_4_ubhbh8.png?tr=w-640",
     quantity: 1,
-    brand: "Motorola",
+    brand: "Nokia",
   },
   {
     id: 10,
@@ -114,7 +114,7 @@ const productData = [
     img: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1697017854/Croma%20Assets/Communication/Mobiles/Images/270656_0_p6disg.png?tr=w-640",
     img2: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1697017846/Croma%20Assets/Communication/Mobiles/Images/270656_4_fjfnc6.png?tr=w-640",
     quantity: 1,
-    brand: "Nokia",
+    brand: "OnePlus",
   },
 
   {
@@ -125,7 +125,7 @@ const productData = [
     img: "https://motorolain.vtexassets.com/arquivos/ids/157690-1200-auto?width=1200&height=auto&aspect=true",
     img2: "https://motorolain.vtexassets.com/arquivos/ids/157693-1200-auto?width=1200&height=auto&aspect=true",
     quantity: 1,
-    brand: "Samsung",
+    brand: "Motorola",
   },
   {
     id: 13,
