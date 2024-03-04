@@ -32,8 +32,9 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
+ useEffect(() => {
     setFilteredItems(filteredData);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCardClick = (val) => {
@@ -133,6 +134,7 @@ const ProductPage = () => {
 
     useEffect(() => {
     applyFilters();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters,data]);
 
   // brand filter
