@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import NavbarResponsive from "./Components/NavResp/NavbarResponsive";
@@ -15,19 +15,6 @@ import About from "./Pages/AboutUs/About";
 import Track from "./Pages/Track/Track";
 
 function App() {
-  const [alert, setalert] = useState(null);
-
-  const showAlert = (message, type) => {
-    setalert({
-      message: message,
-      type: type,
-    });
-
-    setTimeout(() => {
-      setalert(null);
-    }, 1500);
-  };
-
   return (
     <>
       <NavbarResponsive />

@@ -15,6 +15,8 @@ const ScrollButton = () => {
     >
       <span>
         <div className="scroll-down"></div>
+      </span>
+      <span>
         <div className="scroll-down"></div>
       </span>
       <div ref={featureCardsRef}></div>

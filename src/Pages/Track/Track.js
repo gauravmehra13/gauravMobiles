@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Track.css";
 import { useSelector } from "react-redux";
 const Track = () => {
-  const { cart, totalQuantity, totalPrice } = useSelector(
+  const { cart, totalPrice } = useSelector(
     (state) => state.allCart
   );
 

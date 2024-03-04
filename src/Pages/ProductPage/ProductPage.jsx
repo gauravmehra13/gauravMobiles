@@ -32,7 +32,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     setFilteredItems(filteredData);
-  }, []);
+  }, [filteredData]);
 
   const handleCardClick = (val) => {
     navigate("/next", { state: { data: val } });
@@ -87,33 +87,35 @@ const ProductPage = () => {
     priceRange: { min: 10000, max: 150000 },
   });
 
-  const applyFilters = () => {
-    let filteredData = data.filter((product) => {
-      // Filter by brand
-      if (filters.brand.length > 0 && !filters.brand.includes(product.brand)) {
-        return false;
-      }
-      // Filter by rating
-      if (
-        filters.rating.length > 0 &&
-        !filters.rating.includes(product.rating)
-      ) {
-        return false;
-      }
-      // Filter by price range
-      if (
-        product.price < filters.priceRange.min ||
-        product.price > filters.priceRange.max
-      ) {
-        return false;
-      }
-      return true;
-    });
-    setFilteredItems(filteredData);
-  };
-
   useEffect(() => {
-    // Apply filters whenever filters state changes or data changes
+    const applyFilters = () => {
+      let filteredData = data.filter((product) => {
+        // Filter by brand
+        if (
+          filters.brand.length > 0 &&
+          !filters.brand.includes(product.brand)
+        ) {
+          return false;
+        }
+        // Filter by rating
+        if (
+          filters.rating.length > 0 &&
+          !filters.rating.includes(product.rating)
+        ) {
+          return false;
+        }
+        // Filter by price range
+        if (
+          product.price < filters.priceRange.min ||
+          product.price > filters.priceRange.max
+        ) {
+          return false;
+        }
+        return true;
+      });
+      setFilteredItems(filteredData);
+    };
+
     applyFilters();
   }, [filters, data]);
 
