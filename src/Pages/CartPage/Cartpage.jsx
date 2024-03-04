@@ -7,13 +7,15 @@ import {
   removeItem,
   decreaseItemQuantity,
   increaseItemQuantity,
+  addToFavorites,
 } from "../../app/cartSlice";
-
 import "./CartpageStyle.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
 import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+
 const Cartpage = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(
     (state) => state.allCart
@@ -27,8 +29,21 @@ const Cartpage = () => {
     dispatch(getCartTotal());
   }, [cart, dispatch]);
 
+  const addToFav = (data) => {
+    dispatch(addToFavorites(data));
+    toast.success("Item Added To Favourites", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      theme: "dark",
+    });
+  };
+
   return (
     <div>
+      <ToastContainer></ToastContainer>
       <section className="h-100 gradient-custom">
         <div className="container py-5">
           <div className="row d-flex justify-content-center my-4">
@@ -65,9 +80,18 @@ const Cartpage = () => {
                             <button
                               type="button"
                               className="btn btn-primary btn-sm me-1 mb-2"
-                              data-mdb-toggle="tooltip"
                               title="Remove item"
-                              onClick={() => dispatch(removeItem(data.id))}
+                              onClick={() => {
+                                dispatch(removeItem(data.id));
+                                toast.warn("Item removed from cart", {
+                                  position: "top-center",
+                                  autoClose: 3000,
+                                  hideProgressBar: true,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  theme: "light",
+                                });
+                              }}
                             >
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
@@ -75,8 +99,10 @@ const Cartpage = () => {
                             <button
                               type="button"
                               className="btn btn-danger btn-sm mb-2"
-                              data-mdb-toggle="tooltip"
                               title="Move to the wish list"
+                              onClick={() => {
+                              addToFav(data)
+                              }}
                             >
                               <i className="bi bi-heart"></i>
                             </button>

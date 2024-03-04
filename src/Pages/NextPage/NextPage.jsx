@@ -6,8 +6,9 @@ import Star from "../../Components/Star/Star";
 
 import "./NextPageStyles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart,faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
 
 const NextPage = () => {
   const dispatch = useDispatch();
@@ -17,10 +18,19 @@ const NextPage = () => {
 
   const handleAddToCartClick = (e, data) => {
     dispatch(addToCart(data));
+    toast.success("Item Added To Cart", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      theme: "light",
+    });
   };
 
   return (
     <>
+      <ToastContainer />
       <div className="container mb-5">
         <div className="prodcard">
           <div className="container-fliud">
@@ -66,17 +76,24 @@ const NextPage = () => {
                     type="button"
                     onClick={(e) => handleAddToCartClick(e, data)}
                   >
-                    <FontAwesomeIcon
-                    icon={faCartShopping}
-                    className="me-2"
-                    />
+                    <FontAwesomeIcon icon={faCartShopping} className="me-2" />
                     add to cart
                   </button>
                   <Button
                     variant="outline-light"
                     type="button"
                     style={{ width: "70px" }}
-                    onClick={() => dispatch(addToFavorites(data))}
+                    onClick={() => {
+                      dispatch(addToFavorites(data));
+                      toast.success("Item Added To Favourites", {
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        theme: "light",
+                      });
+                    }}
                   >
                     <FontAwesomeIcon
                       icon={faHeart}

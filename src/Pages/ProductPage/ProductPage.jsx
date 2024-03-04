@@ -8,6 +8,8 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Carousel from "react-bootstrap/Carousel";
 import Star from "../../Components/Star/Star";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductPage = () => {
   const [clickedIndex, setClickedIndex] = useState(null);
@@ -57,11 +59,27 @@ const ProductPage = () => {
     e.stopPropagation();
     dispatch(addToCart(val));
     setClickedIndex(val.id);
+    toast.success("Item Added To Cart", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      theme: "dark",
+    });
   };
 
   const handleAddToFavClick = (e, val) => {
     e.stopPropagation();
     dispatch(addToFavorites(val));
+    toast.success("Item Added To Favourites", {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      theme: "dark",
+    });
   };
 
   const countProductsByBrand = (brand) => {
@@ -167,6 +185,7 @@ const ProductPage = () => {
 
   return (
     <>
+      <ToastContainer></ToastContainer>
       <div className="container mt-5 mb-5">
         <Carousel className="car mb-5">
           <Carousel.Item interval={5000}>
