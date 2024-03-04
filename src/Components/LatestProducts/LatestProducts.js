@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./LatestProducts.css";
 import { useDispatch, useSelector } from "react-redux";
 import Swiper from "swiper";

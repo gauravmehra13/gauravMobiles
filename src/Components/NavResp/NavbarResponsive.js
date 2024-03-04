@@ -11,7 +11,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import "./NavbarResp.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getCartTotal, queryData } from "../../app/cartSlice";
+import { getCartTotal } from "../../app/cartSlice";
 import FavSidebar from "../FavItems/FavSidebar";
 
 function NavScrollExample() {
