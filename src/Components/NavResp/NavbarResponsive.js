@@ -7,8 +7,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Badge } from "react-bootstrap";
-import Tooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import "./NavbarResp.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartTotal } from "../../app/cartSlice";
@@ -17,18 +15,6 @@ import FavSidebar from "../FavItems/FavSidebar";
 function NavScrollExample() {
   const { cart, totalQuantity, favoriteItems } = useSelector(
     (state) => state.allCart
-  );
-
-  const renderTooltip = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Favourite Items
-    </Tooltip>
-  );
-
-  const renderTooltip2 = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      View Cart
-    </Tooltip>
   );
 
   // const cartItems = useSelector((state) => state.allCart.cart);
@@ -121,11 +107,7 @@ function NavScrollExample() {
                 onChange={handleSearch}
               /> */}
               {/* <Button variant="outline-success">Search</Button> */}
-              <OverlayTrigger
-                placement="bottom"
-                delay={{ show: 250, hide: 400 }}
-                overlay={renderTooltip}
-              >
+          
                 <div
                   className="position-relative"
                   style={{ cursor: "pointer" }}
@@ -144,12 +126,8 @@ function NavScrollExample() {
                     {favoriteItems.length}
                   </Badge>
                 </div>
-              </OverlayTrigger>
-              <OverlayTrigger
-                placement="bottom"
-                delay={{ show: 250, hide: 250 }}
-                overlay={renderTooltip2}
-              >
+           
+            
                 <div
                   className="position-relative"
                   onClick={handleCartClick}
@@ -167,7 +145,6 @@ function NavScrollExample() {
                     {totalQuantity}
                   </Badge>
                 </div>
-              </OverlayTrigger>
             </Form>
           </Navbar.Collapse>
         </Container>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getCartTotal,
   removeItem,
@@ -24,7 +24,7 @@ const Cartpage = () => {
   // const tax = (19 / 100) * totalPrice;
   // const totalbill = totalPrice + tax;
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getCartTotal());
   }, [cart, dispatch]);
@@ -58,7 +58,7 @@ const Cartpage = () => {
                   ) : (
                     <>
                       {cart?.map((data) => (
-                        <div className="row">
+                        <div className="row" key={data.id}>
                           <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
                             <div
                               className="bg-image hover-overlay hover-zoom ripple rounded"
@@ -101,7 +101,7 @@ const Cartpage = () => {
                               className="btn btn-danger btn-sm mb-2"
                               title="Move to the wish list"
                               onClick={() => {
-                              addToFav(data)
+                                addToFav(data);
                               }}
                             >
                               <i className="bi bi-heart"></i>
@@ -111,7 +111,6 @@ const Cartpage = () => {
                           <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
                             <div
                               className="d-flex mb-4"
-                              style={{ maxWidth: "300px" }}
                             >
                               <Button
                                 className="btn btn-light px-3 me-2"
@@ -218,15 +217,19 @@ const Cartpage = () => {
                       Continue Shopping
                     </Link> */}
 
-                    <Link
-                      to="/checkout"
-                      type="button"
-                      className="btn btn-light text-white "
-                      style={{ background: "#ff5e14" }}
+                    <Button
+                      onClick={() => navigate("/checkout")}
+                      className={`btn btn-light text-white${
+                        cart.length === 0 ? " disabled" : ""
+                      }`}
+                      style={{
+                        background: cart.length === 0 ? "#c0c0c0" : "#ff5e14",
+                      }}
+                      disabled={cart.length === 0}
                     >
                       <FontAwesomeIcon icon={faCreditCard} className="me-2" />
                       Go to checkout
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               </div>

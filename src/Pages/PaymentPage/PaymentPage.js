@@ -34,7 +34,7 @@ const PaymentPage = () => {
       setProcessingPayment(true);
       setTimeout(() => {
         setProcessingPayment(false);
-        dispatch(clearCart());
+        // dispatch(clearCart());
         navigate("/track");
       }, 5000);
     } else {

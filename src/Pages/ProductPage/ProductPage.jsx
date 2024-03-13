@@ -34,8 +34,7 @@ const ProductPage = () => {
 
  useEffect(() => {
     setFilteredItems(filteredData);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [filteredData]);
 
   const handleCardClick = (val) => {
     navigate("/next", { state: { data: val } });

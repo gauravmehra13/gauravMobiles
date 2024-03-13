@@ -117,7 +117,7 @@ const Track = () => {
           </ul>
         </div>
 
-        <div className="footer">
+        {/* <div className="footer">
           <div className="row">
             <div className="col-2">
               <img
@@ -130,7 +130,7 @@ const Track = () => {
             Download Reciept
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

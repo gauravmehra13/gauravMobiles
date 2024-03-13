@@ -371,8 +371,13 @@ const CheckoutAlt = () => {
               <Button
                 onClick={handleMakePurchase}
                 type="Button"
-                className="btn btn-light btn-lg  mt-3"
-                style={{ background: "#ff5e14", color: "white" }}
+                className={`btn btn-light text-white${
+                  cart.length === 0 ? " disabled" : ""
+                }`}
+                style={{
+                  background: cart.length === 0 ? "#c0c0c0" : "#ff5e14",
+                }}
+                disabled={cart.length === 0}
               >
                 <FontAwesomeIcon icon={faCreditCard} className="me-2" />
                 Make purchase
@@ -395,7 +400,6 @@ const CheckoutAlt = () => {
             email: "",
             phone: "",
           });
-          dispatch(clearCart());
         }}
         backdrop="static"
         centered
