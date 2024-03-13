@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import "./PaymentPageStyles.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { clearCart } from "../../app/cartSlice";
 
 const PaymentPage = () => {
   const { cart, totalQuantity, totalPrice } = useSelector(
     (state) => state.allCart
   );
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [cardHolder, setCardHolder] = useState("");

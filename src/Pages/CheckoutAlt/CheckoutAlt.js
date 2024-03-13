@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getCartTotal, clearCart } from "../../app/cartSlice";
+import { getCartTotal } from "../../app/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Confirm from "../../Components/ConfirmationPopup/Confirm";
 import { Modal, Button } from "react-bootstrap"; // Import Bootstrap modal components

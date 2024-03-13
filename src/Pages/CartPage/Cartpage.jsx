@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import {
   getCartTotal,
   removeItem,
@@ -209,13 +209,7 @@ const Cartpage = () => {
                     </li>
                   </ul>
                   <div style={{ gap: "20px" }} className="text-center">
-                    {/* <Link
-                      to="/product"
-                      type="button"
-                      className="btn btn-success btn-lg "
-                    >
-                      Continue Shopping
-                    </Link> */}
+                
 
                     <Button
                       onClick={() => navigate("/checkout")}
