@@ -1,0 +1,18 @@
+.serviceCard :hover {
+  background-color: #ff5e14;
+  color: white;
+}
+
+.serviceCard {
+  color: #ff5e14;
+}
+
+.brand-img {
+    height: 100%;
+  }
+
+@media (max-height: 800px) {
+  .brand-img {
+    height: 80px;
+  }
+}

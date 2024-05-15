@@ -1,0 +1,44 @@
+.links {
+  display: flex;
+  font-size: 18px;
+  gap: 20px;
+}
+
+.links .navigationlink {
+  color: white;
+  transition: color 0.5s ease;
+}
+
+.navigationlink:hover,
+.navigationlink.active {
+  color: #ff5e14;
+}
+
+.navigationlink.active {
+  font-weight: bolder;
+}
+.navbar {
+  /* border-radius: 10px; */
+  /* background-color: rgba(
+    0,
+    0,
+    0,
+    0.3
+  );  */
+  backdrop-filter: blur(10px);
+}
+
+.searchform {
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .links {
+    flex-direction: column;
+  }
+
+  .searchform {
+    margin-top: 20px;
+    /* padding: 20px; */
+  }
+}
