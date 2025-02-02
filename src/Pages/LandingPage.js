@@ -8,14 +8,14 @@ import ScrollButton from "../Components/ScrollButton/ScrollButton";
 
 const LandingPage = () => {
   return (
-    <div>
+    <>
       <HeroSec />
       <ScrollButton />
       <FeatureCards />
       {/* <BestSellers/> */}
       <LatestProducts />
       <FAQs />
-    </div>
+    </>
   );
 };
 

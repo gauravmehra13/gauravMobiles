@@ -13,9 +13,18 @@ import CheckoutAlt from "./Pages/CheckoutAlt/CheckoutAlt";
 import Contact from "./Pages/ContactUS/Contact";
 import About from "./Pages/AboutUs/About";
 import Track from "./Pages/Track/Track";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-  
+  const { isLoading, error } = useAuth0();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
+
   return (
     <>
       <NavbarResponsive />

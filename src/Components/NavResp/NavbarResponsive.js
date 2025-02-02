@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import {
+  Container,
+  Form,
+  Nav,
+  Navbar,
+  Badge,
+  OverlayTrigger,
+  Popover,
+} from "react-bootstrap";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Badge } from "react-bootstrap";
+import {
+  faCartShopping,
+  faHeart,
+  faCircleUser,
+} from "@fortawesome/free-solid-svg-icons";
 import "./NavbarResp.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartTotal } from "../../app/cartSlice";
 import FavSidebar from "../FavItems/FavSidebar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function NavScrollExample() {
+  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
+  const { logout } = useAuth0();
+
   const { cart, totalQuantity, favoriteItems } = useSelector(
     (state) => state.allCart
   );
@@ -36,6 +48,32 @@ function NavScrollExample() {
   const [showSidebar, setShowSidebar] = useState(false);
   // const handleClose = () => setShowSidebar(false);
   // const handleShow = () => setShowSidebar(true);
+
+  const userPopover = (
+    <Popover id="user-popover">
+      <Popover.Header as="h3">Profile</Popover.Header>
+      <Popover.Body>
+        {user?.picture && (
+          <img
+            src={user.picture}
+            alt="User"
+            width="50"
+            className="rounded-circle mb-2"
+          />
+        )}
+        <p>
+          <strong>{user?.name}</strong>
+        </p>
+        <p>{user?.email}</p>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => logout({ returnTo: window.location.origin + "/" })}
+        >
+          Log Out
+        </button>
+      </Popover.Body>
+    </Popover>
+  );
 
   return (
     <>
@@ -107,44 +145,73 @@ function NavScrollExample() {
                 onChange={handleSearch}
               /> */}
               {/* <Button variant="outline-success">Search</Button> */}
-          
-                <div
-                  className="position-relative"
-                  style={{ cursor: "pointer" }}
-                >
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    style={{ cursor: "pointer", fontSize: "24px" }}
-                    onClick={() => setShowSidebar(true)}
-                  />
+              <div className="position-relative" style={{ cursor: "pointer" }}>
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  style={{ cursor: "pointer", fontSize: "24px" }}
+                  onClick={() => setShowSidebar(true)}
+                />
 
-                  <Badge
-                    pill
-                    bg="danger"
-                    className="position-absolute top-0 right-0 translate-middle"
-                  >
-                    {favoriteItems.length}
-                  </Badge>
-                </div>
-           
-            
-                <div
-                  className="position-relative"
-                  onClick={handleCartClick}
-                  style={{ cursor: "pointer" }}
+                <Badge
+                  pill
+                  bg="danger"
+                  className="position-absolute top-0 right-0 translate-middle"
                 >
-                  <FontAwesomeIcon
-                    icon={faCartShopping}
-                    style={{ cursor: "pointer", fontSize: "26px" }}
-                  />
-                  <Badge
-                    pill
-                    bg="danger"
-                    className="position-absolute top-0 right-0 translate-middle"
+                  {favoriteItems.length}
+                </Badge>
+              </div>
+              <div
+                className="position-relative"
+                onClick={handleCartClick}
+                style={{ cursor: "pointer" }}
+              >
+                <FontAwesomeIcon
+                  icon={faCartShopping}
+                  style={{ cursor: "pointer", fontSize: "26px" }}
+                />
+                <Badge
+                  pill
+                  bg="danger"
+                  className="position-absolute top-0 right-0 translate-middle"
+                >
+                  {totalQuantity}
+                </Badge>
+              </div>
+
+              {!isAuthenticated ? (
+                <button
+                  className="btn px-4 py-2 mt-3 mt-sm-0 login"
+                  onClick={() => loginWithRedirect({ prompt: "login" })}
+                >
+                  Log in
+                </button>
+              ) : (
+                <OverlayTrigger
+                  trigger="click"
+                  placement="bottom"
+                  overlay={userPopover}
+                  rootClose
+                >
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ cursor: "pointer" }}
                   >
-                    {totalQuantity}
-                  </Badge>
-                </div>
+                    {user?.picture ? (
+                      <img
+                        src={user.picture}
+                        alt="User"
+                        width="40"
+                        className="rounded-circle"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faCircleUser}
+                        style={{ cursor: "pointer", fontSize: "24px" }}
+                      />
+                    )}
+                  </div>
+                </OverlayTrigger>
+              )}
             </Form>
           </Navbar.Collapse>
         </Container>

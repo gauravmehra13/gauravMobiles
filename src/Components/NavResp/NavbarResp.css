@@ -32,6 +32,18 @@
   align-items: center;
 }
 
+.login {
+  border-radius: 30px;
+  transition: transform 0.3s;
+  background-color: #ff5e14;
+  color: white;
+}
+
+.login:hover {
+  background: transparent;
+  border: 1px solid red;
+}
+
 @media (max-width: 992px) {
   .links {
     flex-direction: column;
