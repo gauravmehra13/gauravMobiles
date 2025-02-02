@@ -69,6 +69,7 @@ const ProductPage = () => {
   useEffect(() => {
     applyFilters();
     setCurrentPage(1);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, data, query]);
 
   // Pagination Logic
