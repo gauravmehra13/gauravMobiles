@@ -3,122 +3,56 @@ import "./ProductPageStyle.css";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, addToFavorites, queryData } from "../../app/cartSlice";
 import { useNavigate } from "react-router-dom";
-import { Button, Row, Col } from "react-bootstrap"; // Import Row and Col from react-bootstrap
+import { Button, Row, Col, Card, Form, InputGroup } from "react-bootstrap";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Carousel from "react-bootstrap/Carousel";
 import Star from "../../Components/Star/Star";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CarouselProductPage from "../../Components/Carousel/CarouselProductPage";
 
 const ProductPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [clickedIndex, setClickedIndex] = useState(null);
 
-  // const cartBtn = document.querySelector(".cart-btn");
-
-  // cartBtn.addEventListener("click", () => {
-  //   cartBtn.classList.add("clicked");
-  // });
-
+  // Redux State
   const data = useSelector((state) => state.allCart.items);
   const query = useSelector((state) => state.allCart.query);
 
+  // Component State
   const [filteredItems, setFilteredItems] = useState([]);
-
-  const filteredData = data.filter((f) =>
-    f.title.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    setFilteredItems(filteredData);
-  }, [filteredData]);
-
-  const handleCardClick = (val) => {
-    navigate("/next", { state: { data: val } });
-  };
-
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-
-  // Calculate the indexes for the current page
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredItems.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const handleAddToCartClick = (e, val, index) => {
-    e.stopPropagation();
-    dispatch(addToCart(val));
-    setClickedIndex(val.id);
-    toast.success("Item Added To Cart", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      theme: "dark",
-    });
-  };
-
-  const handleAddToFavClick = (e, val) => {
-    e.stopPropagation();
-    dispatch(addToFavorites(val));
-    toast.success("Item Added To Favourites", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      theme: "dark",
-    });
-  };
-
-  const countProductsByBrand = (brand) => {
-    return data.filter((product) => product.brand === brand).length;
-  };
-
-  const handleSearchData = (e) => {
-    dispatch(queryData(e.target.value));
-  };
-
-  const [minPrice, setMinPrice] = useState(10000);
-  const [maxPrice, setMaxPrice] = useState(150000);
-
-  const handlePriceRangeChange = (e) => {
-    const value = parseInt(e.target.value);
-    setMaxPrice(value);
-  };
-
-  // State to hold filters
   const [filters, setFilters] = useState({
     brand: [],
     rating: [],
     priceRange: { min: 10000, max: 150000 },
   });
 
+  // Temporary state for price inputs (before applying)
+  const [tempMinPrice, setTempMinPrice] = useState(10000);
+  const [tempMaxPrice, setTempMaxPrice] = useState(150000);
+
+  // Filtering Logic
   const applyFilters = () => {
-    let filteredData = data.filter((product) => {
-      // Filter by brand
+    let updatedData = data.filter((product) => {
+      // Search filter
+      if (query && !product.title.toLowerCase().includes(query.toLowerCase())) {
+        return false;
+      }
+      // Brand filter
       if (filters.brand.length > 0 && !filters.brand.includes(product.brand)) {
         return false;
       }
-      // Filter by rating
+      // Rating filter
       if (
         filters.rating.length > 0 &&
         !filters.rating.includes(product.rating)
       ) {
         return false;
       }
-      // Filter by price range
+      // Price filter
       if (
         product.price < filters.priceRange.min ||
         product.price > filters.priceRange.max
@@ -127,57 +61,100 @@ const ProductPage = () => {
       }
       return true;
     });
-    setFilteredItems(filteredData);
+
+    setFilteredItems(updatedData);
   };
 
+  // Apply filters when dependencies change
   useEffect(() => {
     applyFilters();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, data,filteredData]);
+    setCurrentPage(1);
+  }, [filters, data, query]);
 
-  // brand filter
+  // Pagination Logic
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredItems.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(filteredItems.length / productsPerPage); // Use filteredItems.length here
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const isNextDisabled = currentPage === totalPages; // Disable "Next" if we're on the last page
+  const isPrevDisabled = currentPage === 1; // Disable "Previous" if we're on the first page
+
+  // Handlers for filters
   const toggleBrandFilter = (brand) => {
-    let updatedFilters = { ...filters };
-    if (updatedFilters.brand.includes(brand)) {
-      updatedFilters.brand = updatedFilters.brand.filter(
-        (item) => item !== brand
-      );
-    } else {
-      updatedFilters.brand.push(brand);
-    }
-    setFilters(updatedFilters);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      brand: prevFilters.brand.includes(brand)
+        ? prevFilters.brand.filter((item) => item !== brand)
+        : [...prevFilters.brand, brand],
+    }));
   };
 
-  //ratings filter
   const toggleRatingFilter = (rating) => {
-    let updatedFilters = { ...filters };
-    if (updatedFilters.rating.includes(rating)) {
-      updatedFilters.rating = updatedFilters.rating.filter(
-        (item) => item !== rating
-      );
-    } else {
-      updatedFilters.rating = [
-        rating,
-        ...updatedFilters.rating.filter((item) => item > rating),
-      ];
-    }
-    setFilters(updatedFilters);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      rating: prevFilters.rating.includes(rating)
+        ? prevFilters.rating.filter((item) => item !== rating)
+        : [...prevFilters.rating, rating],
+    }));
   };
 
-  // price range filter
+  const handleMinPriceChange = (e) => {
+    setTempMinPrice(parseInt(e.target.value) || 0);
+  };
+
+  const handleMaxPriceChange = (e) => {
+    setTempMaxPrice(parseInt(e.target.value) || 0);
+  };
+
   const handleApplyPriceFilter = () => {
-    setFilters({
-      ...filters,
-      priceRange: { min: minPrice, max: maxPrice },
-    });
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      priceRange: { min: tempMinPrice, max: tempMaxPrice },
+    }));
   };
 
-  // clear all filters
   const clearFilters = () => {
     setFilters({
       brand: [],
       rating: [],
-      priceRange: { min: 0, max: Infinity },
+      priceRange: { min: 10000, max: 150000 },
+    });
+  };
+
+  const handleSearchData = (e) => {
+    dispatch(queryData(e.target.value));
+  };
+
+  const handleCardClick = (val) => {
+    navigate("/next", { state: { data: val } });
+  };
+
+  const handleAddToCartClick = (e, val) => {
+    e.stopPropagation();
+    dispatch(addToCart(val));
+    setClickedIndex(val.id);
+
+    toast.success("Item Added To Cart", {
+      position: "top-center",
+      autoClose: 3000,
+      theme: "dark",
+    });
+  };
+
+  const handleAddToFavClick = (e, val) => {
+    e.stopPropagation();
+    dispatch(addToFavorites(val));
+    toast.success("Item Added To Favorites", {
+      position: "top-center",
+      autoClose: 3000,
+      theme: "dark",
     });
   };
 
@@ -185,218 +162,111 @@ const ProductPage = () => {
     <>
       <ToastContainer></ToastContainer>
       <div className="container mt-5 mb-5">
-        <Carousel className="car mb-5">
-          <Carousel.Item interval={5000}>
-            <img
-              src="https://newgadgetsindia.com/wp-content/uploads/2022/12/Samsung-Galaxy-M04-jpg.webp"
-              className="carouselImg d-block w-100"
-              alt="..."
-              height={400}
-            />
-            <Carousel.Caption>
-              {/* <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item interval={5000}>
-            <img
-              src="https://co.99.com/guide/event/2019/conquermallcenter/images/sub/xiaomi/banner1.jpg"
-              className="carouselImg d-block w-100"
-              alt="..."
-              height={400}
-            />
-            <Carousel.Caption>
-              {/* <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item interval={5000}>
-            <img
-              src="https://assets.gqindia.com/photos/5cdc695e0f4cc0a9a7db16df/16:9/w_2560%2Cc_limit/GQ-India-phone-OnePlus-3-IMAGE.jpg"
-              height={400}
-              className="carouselImg d-block w-100"
-              alt="..."
-            />
-            <Carousel.Caption>
-              {/* <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p> */}
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
+        <CarouselProductPage />
 
         <div className="row">
           <aside className="col-md-3">
-            <div className="card">
-              <article className="filter-group">
-                <header className="card-header">
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">Product type</h6>
-                </header>
-                <div className="filter-content collapse show" id="collapse_1">
-                  <div className="card-body">
-                    <form className="pb-3">
-                      <div className="input-group">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder="Search"
-                          onChange={handleSearchData}
-                        />
-                        <div className="input-group-append">
-                          <button className="btn btn-light mx-2" type="button">
-                            <i className="bi bi-search"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </article>
-              <article className="filter-group">
-                <header className="card-header">
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">Brands </h6>
-                </header>
-                <div className="filter-content collapse show" id="collapse_2">
-                  <div className="card-body">
-                    {["Samsung", "Motorola", "Nokia", "Xiaomi", "OnePlus"].map(
-                      (brand, index) => (
-                        <div className="form-check" key={index}>
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`brand-${brand}`}
-                            checked={filters.brand.includes(brand)}
-                            onChange={() => toggleBrandFilter(brand)}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor={`brand-${brand}`}
-                          >
-                            {brand}
-                          </label>
-                          <span
-                            className="text-center float-end bg-light"
-                            style={{ width: "30px" }}
-                          >
-                            {countProductsByBrand(brand)}
-                          </span>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
-              </article>
-              <article className="filter-group">
-                <header className="card-header">
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">Price range </h6>
-                </header>
-                <div className="filter-content collapse show" id="collapse_3">
-                  <div className="card-body">
-                    <div className="text-center">
-                      <input
-                        style={{ width: "250px" }}
-                        type="range"
-                        className="custom-range"
-                        min="10000"
-                        max="150000"
-                        value={maxPrice}
-                        onChange={handlePriceRangeChange}
-                      />
-                    </div>
-                    <div className="row mb-3">
-                      <div className="col-6">
-                        <p className="mb-0">Min</p>
-                        <div className="form-outline">
-                          <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Min Price"
-                            value={minPrice}
-                            onChange={(e) =>
-                              setMinPrice(parseInt(e.target.value))
-                            }
-                          />
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <p className="mb-0">Max</p>
-                        <div className="form-outline">
-                          <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Max Price"
-                            value={maxPrice}
-                            onChange={(e) =>
-                              setMaxPrice(parseInt(e.target.value))
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-center  mt-3">
-                      <button
-                        className="btn btn-light"
-                        onClick={handleApplyPriceFilter}
-                      >
-                        Apply
-                      </button>{" "}
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <article className="filter-group">
-                <header className="card-header">
-                  <i className="icon-control fa fa-chevron-down"></i>
-                  <h6 className="title">Rating </h6>
-                </header>
-                <div className="filter-content collapse show" id="collapse_4">
-                  <div className="card-body">
-                    {[5, 4, 3, 2].map((rating, index) => (
-                      <div
-                        className="form-check"
-                        key={index}
-                        style={{ width: "150px" }}
-                      >
-                        <input
-                          className="form-check-input rating-checkbox"
-                          type="checkbox"
-                          id={`rating-${rating}`}
-                          checked={filters.rating.includes(rating)}
-                          onChange={() => toggleRatingFilter(rating)}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor={`rating-${rating}`}
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          {[...Array(rating)].map((_, i) => (
-                            <i
-                              key={i}
-                              className="bi bi-star-fill"
-                              style={{ color: "gold" }}
-                            ></i>
-                          ))}
-                          {[...Array(5 - rating)].map((_, i) => (
-                            <i
-                              key={i}
-                              className="bi bi-star"
-                              style={{ color: "gold" }}
-                            ></i>
-                          ))}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            </div>
+            <Card className="p-3 shadow-sm border-0">
+              {/* Search */}
+              <Form.Group className="mb-4">
+                <Form.Label className="fw-bold">Search</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Search products..."
+                  onChange={handleSearchData}
+                />
+              </Form.Group>
+
+              {/* Brand Filter */}
+              <Form.Group className="mb-4">
+                <Form.Label className="fw-bold">Brands</Form.Label>
+                {["Samsung", "Motorola", "Nokia", "Xiaomi", "OnePlus"].map(
+                  (brand, index) => (
+                    <Form.Check
+                      key={index}
+                      type="checkbox"
+                      label={brand}
+                      checked={filters.brand.includes(brand)}
+                      onChange={() => toggleBrandFilter(brand)}
+                      className="mb-2"
+                    />
+                  )
+                )}
+              </Form.Group>
+
+              {/* Price Range */}
+              <Form.Group className="mb-4">
+                <Form.Label className="fw-bold">Price Range</Form.Label>
+                <Form.Range
+                  min="10000"
+                  max="150000"
+                  value={tempMaxPrice}
+                  onChange={handleMaxPriceChange}
+                  style={{
+                    accentColor: "#ff5e14", // This will change the color of the dot and track
+                    borderRadius: "5px", // Round the edges of the slider
+                    height: "8px", // Adjust the thickness of the track
+                  }}
+                />
+                <InputGroup className="mt-2">
+                  <Form.Control
+                    type="number"
+                    value={tempMinPrice}
+                    onChange={handleMinPriceChange}
+                    placeholder="Min"
+                  />
+                  <InputGroup.Text>-</InputGroup.Text>
+                  <Form.Control
+                    type="number"
+                    value={tempMaxPrice}
+                    onChange={handleMaxPriceChange}
+                    placeholder="Max"
+                  />
+                </InputGroup>
+                <Button
+                  variant="primary"
+                  className="mt-2 w-100 "
+                  style={{
+                    backgroundColor: "#ff5e14",
+                    borderColor: "#ff5e14",
+                    transition: "0.3s",
+                  }}
+                  onClick={handleApplyPriceFilter}
+                  onMouseOver={(e) =>
+                    (e.target.style.backgroundColor = "#e65412")
+                  }
+                  onMouseOut={(e) =>
+                    (e.target.style.backgroundColor = "#ff5e14")
+                  }
+                >
+                  Apply
+                </Button>
+              </Form.Group>
+
+              {/* Rating Filter */}
+              <Form.Group className="mb-3">
+                <Form.Label className="fw-bold">Rating</Form.Label>
+                {[5, 4, 3, 2].map((rating, index) => (
+                  <Form.Check
+                    key={index}
+                    type="checkbox"
+                    checked={filters.rating.includes(rating)}
+                    onChange={() => toggleRatingFilter(rating)}
+                    label={
+                      <>
+                        {[...Array(rating)].map((_, i) => (
+                          <i
+                            key={i}
+                            className="bi bi-star-fill text-warning me-1"
+                          ></i>
+                        ))}
+                      </>
+                    }
+                    className="mb-2"
+                  />
+                ))}
+              </Form.Group>
+            </Card>
           </aside>
 
           <div className="col-md-9 prodContainer">
@@ -426,14 +296,14 @@ const ProductPage = () => {
                         className="page-link"
                         aria-label="Previous"
                         onClick={() => paginate(currentPage - 1)}
-                        disabled={currentPage === 1}
+                        disabled={isPrevDisabled} // Disable if we're on the first page
                       >
                         <span aria-hidden="true">&laquo;</span>
                         <span className="sr-only">Previous</span>
                       </button>
                     </li>
 
-                    {Array(Math.ceil(data.length / productsPerPage))
+                    {Array(totalPages) // Use totalPages to display the correct number of pages
                       .fill()
                       .map((_, index) => (
                         <li
@@ -456,10 +326,7 @@ const ProductPage = () => {
                         className="page-link"
                         aria-label="Next"
                         onClick={() => paginate(currentPage + 1)}
-                        disabled={
-                          currentPage ===
-                          Math.ceil(data.length / productsPerPage)
-                        }
+                        disabled={isNextDisabled} // Disable if we're on the last page
                       >
                         <span aria-hidden="true">&raquo;</span>
                         <span className="sr-only">Next</span>
@@ -491,14 +358,6 @@ const ProductPage = () => {
                       <Star stars={val.rating}></Star>
                     </div>
                     <div className="card-text">Rs {val.price}</div>
-                    {/* <li
-                      onClick={(e) => handleAddToCartClick(e, val)}
-                      className="card-button"
-                      style={{ cursor: "pointer" }}
-                    >
-                      <span className="bi bi-cart mx-2"></span>
-                      Add To Cart
-                    </li> */}
 
                     <button
                       className={`cart-btn ${
